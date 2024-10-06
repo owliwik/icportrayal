@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+@layer base {
+	.nav-link {
+		@apply transition-all;
+	}
+
+	.nav-link:hover {
+		@apply bg-primary-500 text-white;
+	}
+
+ .link-animated {
+		position: relative;
+	}
+	.link-animated::before {
+		content: '';
+		position: absolute;
+		top: 100%;
+		left: 50%;
+		width: 0;
+		height: 2px;
+		background-color: currentColor;
+		transition: 0.25s;
+	}
+	.link-animated.active-link::before,
+	.link-animated:hover::before {
+		left: 0;
+		width: 100%;
+	}
+  .link-animated.active-link {
+    font-weight: 400;
+  }
+
+	.animate-fade-in {
+		animation: fade-in 0.05s linear forwards;
+	}
+}
