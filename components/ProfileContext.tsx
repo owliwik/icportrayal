@@ -10,7 +10,7 @@ import {
 } from 'react'
 
 interface ProfileContextType {
-  profile: Profile | null
+  displayName: Profile | null
   updateProfile: (profileData: Profile | null) => void
 }
 

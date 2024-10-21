@@ -8,28 +8,21 @@ const Page = () => {
 
   return (
     <div className='w-full h-full flex justify-center items-center'>
-      <div className='w-80 h-64 p-8 bg-white shadow-lg rounded-lg flex flex-col justify-center items-center gap-8'>
-        <div className='text-xl font-medium'>The counter is {counter}</div>
+      <div className='flex flex-col items-center gap-16'>
+        <h1 className='text-4xl text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-purple-600 to-blue-500'>
+          欢迎来到 IC Portrayal!
+        </h1>
 
-        <div className='flex gap-2'>
-          <Button
-            variant='solid'
-            color='primary'
-            onClick={() => {
-              setCounter(counter + 1)
-            }}
-          >
-            Increment
-          </Button>
-          <Button
-            variant='light'
-            color='secondary'
-            onClick={() => {
-              setCounter(0)
-            }}
-          >
-            Reset
-          </Button>
+        <div className='flex gap-6'>
+          <a href='/auth/signup'>
+            <Button variant='solid' color='primary'>
+              加入我们
+            </Button>
+          </a>
+
+          <a href='/clubs'>
+            <Button href='/clubs'>社团页</Button>
+          </a>
         </div>
       </div>
     </div>

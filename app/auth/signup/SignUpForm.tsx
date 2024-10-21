@@ -1,9 +1,11 @@
 'use client'
 
 import React from 'react'
-import { Button, Input, Link, Tooltip } from '@nextui-org/react'
+import { Button, Input, Link, Popover, PopoverContent, PopoverTrigger, Tooltip } from '@nextui-org/react'
 import { AnimatePresence, domAnimation, LazyMotion, m } from 'framer-motion'
 import { Icon } from '@iconify/react'
+import { SuccessMask } from '@/components/success-mask'
+import { supabase } from '@/lib/supabase/client'
 
 export function SignUpForm() {
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false)
@@ -18,12 +20,15 @@ export function SignUpForm() {
   const [isConfirmPasswordValid, setIsConfirmPasswordValid] =
     React.useState(true)
 
+  const [success, setSuccess] = React.useState(false)
+  const [isOpen, setOpen] = React.useState(false)
+
   const togglePasswordVisibility = () =>
     setIsPasswordVisible(!isPasswordVisible)
   const toggleConfirmPasswordVisibility = () =>
     setIsConfirmPasswordVisible(!isConfirmPasswordVisible)
-  
-  const titles = ['加入 Portrayal', '保护你的账户', '即将完成...']
+
+  const titles = ['加入 Portrayal', '保护你的账户']
 
   const variants = {
     enter: (direction: number) => ({
@@ -56,25 +61,36 @@ export function SignUpForm() {
     paginate(1)
   }
 
-  const handlePasswordSubmit = () => {
+  const handlePasswordSubmit = async () => {
     if (!password.length) {
       setIsPasswordValid(false)
 
       return
     }
     setIsPasswordValid(true)
-    paginate(1)
-  }
 
-  const handleConfirmPasswordSubmit = () => {
     if (!confirmPassword.length || confirmPassword !== password) {
       setIsConfirmPasswordValid(false)
 
       return
     }
     setIsConfirmPasswordValid(true)
-    // Submit logic or API call here
-    console.log(`Email: ${email}, Password: ${password}`)
+
+    //console.log(email, password)
+    const response = await supabase.auth.signUp({
+      email,
+      password,
+    })
+
+    if (response.data) {
+      if (response.data.user?.confirmation_sent_at) {
+        setOpen(true)
+        alert('邮箱已经注册')
+      } else {
+        console.log(response)
+        setSuccess(true)
+      }
+    }
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -86,9 +102,6 @@ export function SignUpForm() {
       case 1:
         handlePasswordSubmit()
         break
-      case 2:
-        handleConfirmPasswordSubmit()
-        break
       default:
         break
     }
@@ -97,6 +110,14 @@ export function SignUpForm() {
   return (
     <div className='flex h-full w-full items-center justify-center'>
       <div className='flex w-full max-w-sm flex-col gap-2 overflow-hidden rounded-large bg-content1 p-11 shadow-2xl'>
+        {success && (
+          <SuccessMask>
+            <div className='flex flex-col items-center'>
+              <div>提交成功！请检查邮箱中的确认链接🫡</div>
+              <div>（别忘了查看垃圾邮件）</div>
+            </div>
+          </SuccessMask>
+        )}
         <LazyMotion features={domAnimation}>
           <m.div className='flex items-center gap-2 pb-4'>
             <AnimatePresence initial={false} mode='popLayout'>
@@ -133,9 +154,7 @@ export function SignUpForm() {
                 {page === 0 ? (
                   <m.div>
                     <m.div className='text-2xl font-semibold'>
-                      <m.h1>
-                        {titles[0]}
-                      </m.h1>
+                      <m.h1>{titles[0]}</m.h1>
                     </m.div>
                     <m.div className='text-md my-1 text-gray-400'>
                       已经有账户了?&nbsp;
@@ -173,7 +192,7 @@ export function SignUpForm() {
                 <div className='flex flex-col gap-4'>
                   <Input
                     isRequired
-                    label='中文名'
+                    label='你的名字'
                     name='name'
                     isInvalid={false}
                   />
@@ -241,9 +260,7 @@ export function SignUpForm() {
                       </button>
                     }
                     errorMessage={
-                      !isConfirmPasswordValid
-                        ? 'Passwords do not match'
-                        : undefined
+                      !isConfirmPasswordValid ? '密码不匹配' : undefined
                     }
                     label='确认密码'
                     name='confirmPassword'
@@ -259,15 +276,10 @@ export function SignUpForm() {
                   />
                 </div>
               )}
-              {page === 2 && (
-                <div>
-                  <Input />
-                </div>
-              )}
+
               <Button fullWidth color='primary' type='submit' className='mt-2'>
-                {page === 0 && '注册'}
-                {page === 1 && '继续'}
-                {page === 2 && '加入！'}
+                {page === 0 && '继续'}
+                {page === 1 && '加入Portrayal！'}
               </Button>
             </m.form>
           </AnimatePresence>

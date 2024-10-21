@@ -1,29 +1,24 @@
-import { Club } from '@/lib/types/club'
+'use client'
+
 import { Button } from '@nextui-org/button'
 import Link from 'next/link'
 import { ClubGrid } from './ClubGrid'
-import { getSession } from '@/app/api/appwrite'
-import { redirect } from 'next/navigation'
-import { adminDB } from '@/app/api/appwrite'
-import { CLUBS, MAIN_DB } from '../api/db'
-import { unstable_cache } from 'next/cache'
+import { useEffect, useState } from 'react'
+import { Club } from '@/lib/types/club'
+import { supabase } from '@/lib/supabase/client'
 
-const getClubs = unstable_cache(
-  async () => {
-    const data = await adminDB.listDocuments(MAIN_DB, CLUBS)
-    return data.documents as any
-  },
-  [],
-  { revalidate: 3600 }
-)
+const Page = () => {
+  const [clubs, setClubs] = useState<Club[]>()
+  useEffect(() => {
+    const run = async () => {
+      const response = await supabase.from('clubs').select('*')
+      if (response.data) {
+        setClubs(response.data)
+      }
+    }
 
-const Page = async () => {
-  const { status } = await getSession()
-  if (status === 401) {
-    redirect('/auth/login')
-  }
-
-  const clubs: Club[] = await getClubs()
+    run()
+  })
 
   return (
     <div className='w-full h-full flex flex-col items-center'>
@@ -36,7 +31,7 @@ const Page = async () => {
         </div>
       </div>
 
-      <ClubGrid clubs={clubs} />
+      {clubs && <ClubGrid clubs={clubs} />}
     </div>
   )
 }

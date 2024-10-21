@@ -13,12 +13,42 @@ import { usePathname, useRouter } from 'next/navigation'
 import { cn } from '@nextui-org/theme'
 import { useProfile } from './ProfileContext'
 import { useLanguage } from './LanguageContext'
+import { useState, useEffect } from 'react'
+import { supabase } from '@/lib/supabase/client'
 
 const Navigation = () => {
   const current = usePathname().split('/')[1]
-  const { profile, updateProfile } = useProfile()
+  //const { profile, updateProfile } = useProfile()
+  const [user, setUser] = useState('')
   const { switchLanguage } = useLanguage()
   const router = useRouter()
+
+  useEffect(() => {
+    supabase.auth.onAuthStateChange(async (event, session) => {
+      const userData = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', session?.user.id)
+        .single()
+
+      //console.log('USERDATA: ' + userData.data.name)
+      if (userData.data) {
+        setUser(userData.data.name)
+      }
+    })
+  })
+
+  // useEffect(() => {
+  //   const run = async () => {
+  //     const { data, error } = await supabase.auth.getUser()
+
+  //     if (data.user?.email) {
+  //       setUser(data.user.email)
+  //     }
+  //   }
+
+  //   run()
+  // })
 
   return (
     <Navbar shouldHideOnScroll>
@@ -65,37 +95,30 @@ const Navigation = () => {
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify='end'>
-        {profile ? (
+        {user ? (
           <div className='flex gap-2'>
             <Button
               variant='light'
               color='danger'
               onClick={async () => {
-                await fetch('/api/auth/logout', { method: 'GET' })
-                updateProfile(null)
+                await supabase.auth.signOut()
+                setUser('')
+                router.refresh()
               }}
             >
-              Sign Out
+              退出登录
             </Button>
             <Link href='/home'>
-              <Button variant='flat'>{profile.name}</Button>
+              <Button variant='flat'>{user}</Button>
             </Link>
           </div>
         ) : (
           <Link href='/auth/login'>
-            <Button variant='flat'>Sign In</Button>
+            <Button variant='flat'>登入</Button>
           </Link>
         )}
 
-        {/* <Button
-          isIconOnly
-          variant='flat'
-          color='secondary'
-          onClick={() => switchLanguage()}
-          className='text-lg'
-        >
-          <MdLanguage />
-        </Button> */}
+        
       </NavbarContent>
     </Navbar>
   )

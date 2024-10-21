@@ -6,7 +6,7 @@ const isBrowser = typeof window !== undefined
 
 export const clubSchema = z.object({
   name: z.string().min(2).max(32),
-  englishName: z.string().min(2).max(128).optional(),
+  aliasName: z.string().min(2).max(128).optional(),
   isOfficial: z.boolean().default(false),
   leaders: z.array(z.string().max(8)).max(16),
   contact: z.string().min(2).max(32).optional(),

@@ -21,6 +21,7 @@ import { useProfile } from '@/components/ProfileContext'
 import { useLanguage } from '@/components/LanguageContext'
 import { MultiLang } from '@/lib/types/lang'
 import { SuccessMask } from '@/components/success-mask'
+import { supabase } from '@/lib/supabase/client'
 
 const Page = () => {
   const {
@@ -31,43 +32,21 @@ const Page = () => {
     resolver: zodResolver(loginSchema),
   })
 
-  const { profile, updateProfile } = useProfile()
   const { language } = useLanguage()
 
-  const [errMsg, setErrMsg] = useState<MultiLang>()
+  const [errMsg, setErrMsg] = useState()
   const [isComplete, setComplete] = useState(false)
 
   const onSubmit = async ({ email, password }: LoginSchema) => {
-    try {
-      const sessionData = await fetch('/api/auth/login', {
-        method: 'POST',
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      })
-      if (sessionData.status !== 200) {
-        const { error } = await sessionData.json()
-        setErrMsg(error)
-        console.log(error)
-        return
-      }
-      const session: Models.Session = await sessionData.json()
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email, password
+    })
 
-      const profileData = await fetch(`/api/profile`, {
-        method: 'GET',
-      })
-      if (profileData.status !== 200) {
-        const { error } = await profileData.json()
-        setErrMsg(error)
-        return
-      }
-      const profile: Profile = await profileData.json()
-
-      updateProfile(profile)
+    if (data.user) {
+      console.log(data.user)
       onSuccess()
-    } catch (error: any) {
-      return
+    } else {
+      alert('密码错误')
     }
   }
 
@@ -81,11 +60,12 @@ const Page = () => {
   return (
     <div className='w-full h-full flex justify-center items-center'>
       <div className='w-[20rem] p-10 bg-white rounded-2xl shadow-2xl relative'>
-        {isComplete && (
-          <SuccessMask>{profile?.name}，欢迎回来！</SuccessMask>
-        )}
+        {isComplete && <SuccessMask>欢迎回来！</SuccessMask>}
 
-        <form onSubmit={handleSubmit(onSubmit)} onChange={() => setErrMsg(undefined)}>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          onChange={() => setErrMsg(undefined)}
+        >
           <div>
             <h1 className='text-[1.7rem] font-semibold'>欢迎回来</h1>
             <div className='text-gray-400 text-md'>
