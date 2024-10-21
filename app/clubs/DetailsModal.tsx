@@ -29,7 +29,7 @@ export const DetailsModal = ({
             <ModalHeader className='text-2xl flex-col'>
               <div>{club.name}</div>
               <div className='text-base font-normal text-gray-500'>
-                {club.englishName}
+                {club.aliasName}
               </div>
             </ModalHeader>
             <ModalBody>

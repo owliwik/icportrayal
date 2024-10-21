@@ -117,7 +117,6 @@ const Navigation = () => {
             <Button variant='flat'>登入</Button>
           </Link>
         )}
-
         
       </NavbarContent>
     </Navbar>
