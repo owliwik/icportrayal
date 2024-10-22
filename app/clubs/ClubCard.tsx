@@ -10,9 +10,14 @@ import { cn } from '@nextui-org/theme'
 
 export const ClubCard = (club: Club) => {
   const [modalOpened, setModalOpened] = useState(false)
-  const profileImageURL = club.profileImageID
-    ? `/api/clubs/profile-images/${club.profileImageID}`
-    : `/${club.type}.jpg`
+  let profileImageURL
+  if (club.profileImageID) {
+    profileImageURL = `/api/clubs/profile-images/${club.profileImageID}`
+  } else if (club.type) {
+    profileImageURL = `/${club.type}.jpg`
+  } else {
+    profileImageURL = '/default.jpg'
+  }
 
   return (
     <>
@@ -30,10 +35,6 @@ export const ClubCard = (club: Club) => {
             className='absolute w-full h-full object-cover transition-all duration-400 ease-in-out group-hover:scale-105 group-hover:brightness-90'
             src={profileImageURL}
             alt=''
-            onError={(event) => {
-              event.currentTarget.onerror = null
-              event.currentTarget.src = '/default.jpg'
-            }}
           />
           <div className='m-4 absolute z-10'>
             <div className='text-xl'>{club.name}</div>

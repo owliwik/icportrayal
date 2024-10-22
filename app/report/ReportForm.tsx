@@ -16,9 +16,23 @@ import { z } from 'zod'
 import { CgSpinner } from 'react-icons/cg'
 import { SuccessMask } from '@/components/success-mask'
 import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 import sleep from '@/lib/sleep'
+import { supabase } from '@/lib/supabase/client'
 
-export const ReportForm = ({ clubs }: { clubs: Club[] }) => {
+export const ReportForm = () => {
+  const [clubs, setClubs] = useState<Club[]>()
+  useEffect(() => {
+    const run = async () => {
+      const { data, error } = await supabase.from('clubs').select('*')
+      if (data) {
+        setClubs(data)
+      }
+    }
+
+    run()
+  }, [])
+
   const {
     register,
     handleSubmit,
@@ -31,8 +45,11 @@ export const ReportForm = ({ clubs }: { clubs: Club[] }) => {
     resolver: zodResolver(clubActivitySchema),
   })
 
-  const onSubmit = async (data: z.infer<typeof clubActivitySchema>) => {
+  interface ClubActivitySchema extends z.infer<typeof clubActivitySchema> {}
+
+  const onSubmit = async (data: ClubActivitySchema) => {
     const formData = new FormData()
+
     Object.keys(data).forEach((key) => {
       const formValue = data[key as keyof typeof data]
       if (formValue instanceof File) {
@@ -41,16 +58,6 @@ export const ReportForm = ({ clubs }: { clubs: Club[] }) => {
         formData.append(key, formValue.toString())
       }
     })
-
-    const res = await fetch('/api/clubs/report', {
-      method: 'POST',
-      body: formData,
-    })
-
-    if (!res.ok) {
-      //
-      return
-    }
 
     onSuccess()    
   }
@@ -69,7 +76,7 @@ export const ReportForm = ({ clubs }: { clubs: Club[] }) => {
       {isComplete && <SuccessMask>活动打卡成功！</SuccessMask>}
 
       <div className='mb-4'>
-        <h1 className='text-2xl font-semibold'>社团活动打卡</h1>
+        <h1 className='text-2xl font-semibold'>社团活动打卡🏅</h1>
         <p className='font-light text-gray-500'>ICCU将审核提交的活动信息</p>
       </div>
 

@@ -1,289 +1,185 @@
 'use client'
 
-import React from 'react'
-import { Button, Input, Link, Popover, PopoverContent, PopoverTrigger, Tooltip } from '@nextui-org/react'
-import { AnimatePresence, domAnimation, LazyMotion, m } from 'framer-motion'
-import { Icon } from '@iconify/react'
-import { SuccessMask } from '@/components/success-mask'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Loader2 } from 'lucide-react'
+
+import { useToast } from '@/hooks/use-toast'
+import { useForm } from 'react-hook-form'
 import { supabase } from '@/lib/supabase/client'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from 'react'
+import { SuccessMask } from '@/components/success-mask'
 
-export function SignUpForm() {
-  const [isPasswordVisible, setIsPasswordVisible] = React.useState(false)
-  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
-    React.useState(false)
-  const [email, setEmail] = React.useState('')
-  const [password, setPassword] = React.useState('')
-  const [confirmPassword, setConfirmPassword] = React.useState('')
-  const [[page, direction], setPage] = React.useState([0, 0])
-  const [isEmailValid, setIsEmailValid] = React.useState(true)
-  const [isPasswordValid, setIsPasswordValid] = React.useState(true)
-  const [isConfirmPasswordValid, setIsConfirmPasswordValid] =
-    React.useState(true)
-
-  const [success, setSuccess] = React.useState(false)
-  const [isOpen, setOpen] = React.useState(false)
-
-  const togglePasswordVisibility = () =>
-    setIsPasswordVisible(!isPasswordVisible)
-  const toggleConfirmPasswordVisibility = () =>
-    setIsConfirmPasswordVisible(!isConfirmPasswordVisible)
-
-  const titles = ['加入 Portrayal', '保护你的账户']
-
-  const variants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? 50 : -50,
-      opacity: 0,
-    }),
-    center: {
-      zIndex: 1,
-      x: 0,
-      opacity: 1,
+const signUpSchema = z
+  .object({
+    nickname: z.string().min(1, '请输入昵称').max(8, '昵称最多8位'),
+    email: z.string().min(1, '请输入邮箱').email('请检查邮箱格式'),
+    password: z
+      .string({ message: '请设置一个密码' })
+      .min(6, '密码长度不小于6位')
+      .max(64, '密码长度不大于64位'),
+    confirm: z.string(),
+  })
+  .refine(
+    (data) => {
+      return data.password === data.confirm
     },
-    exit: (direction: number) => ({
-      zIndex: 0,
-      x: direction < 0 ? 50 : -50,
-      opacity: 0,
-    }),
-  }
+    { message: '密码和确认密码不一致', path: ['confirm'] }
+  )
 
-  const paginate = (newDirection: number) => {
-    setPage([page + newDirection, newDirection])
-  }
+interface SignUpSchema extends z.infer<typeof signUpSchema> {}
 
-  const handleEmailSubmit = () => {
-    if (!email.length) {
-      setIsEmailValid(false)
+export default function SignUpForm() {
+  const [success, setSuccess] = useState(false)
+  const { toast } = useToast()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<SignUpSchema>({
+    resolver: zodResolver(signUpSchema),
+  })
 
-      return
-    }
-    setIsEmailValid(true)
-    paginate(1)
-  }
-
-  const handlePasswordSubmit = async () => {
-    if (!password.length) {
-      setIsPasswordValid(false)
-
-      return
-    }
-    setIsPasswordValid(true)
-
-    if (!confirmPassword.length || confirmPassword !== password) {
-      setIsConfirmPasswordValid(false)
-
-      return
-    }
-    setIsConfirmPasswordValid(true)
-
-    //console.log(email, password)
-    const response = await supabase.auth.signUp({
-      email,
-      password,
+  const onSubmit = async (formData: SignUpSchema) => {
+    console.log(formData)
+    const { data, error } = await supabase.auth.signUp({
+      email: formData.email,
+      password: formData.password,
+      options: {
+        data: {
+          display_name: formData.nickname,
+        },
+      },
     })
 
-    if (response.data) {
-      if (response.data.user?.confirmation_sent_at) {
-        setOpen(true)
-        alert('邮箱已经注册')
-      } else {
-        console.log(response)
-        setSuccess(true)
-      }
-    }
-  }
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    switch (page) {
-      case 0:
-        handleEmailSubmit()
-        break
-      case 1:
-        handlePasswordSubmit()
-        break
-      default:
-        break
+    if (data.user?.identities && !data.user.identities.length) {
+      toast({
+        title: '你的邮箱已经注册😢',
+        variant: 'destructive',
+        duration: 3000,
+      })
+    } else if (error) {
+      toast({
+        title: error.message,
+        variant: 'destructive',
+        duration: 3000,
+      })
+    } else {
+      console.log(data.user)
+      setSuccess(true)
     }
   }
 
   return (
-    <div className='flex h-full w-full items-center justify-center'>
-      <div className='flex w-full max-w-sm flex-col gap-2 overflow-hidden rounded-large bg-content1 p-11 shadow-2xl'>
-        {success && (
-          <SuccessMask>
-            <div className='flex flex-col items-center'>
-              <div>提交成功！请检查邮箱中的确认链接🫡</div>
-              <div>（别忘了查看垃圾邮件）</div>
+    <div className='w-full h-full flex justify-center items-center'>
+      {success && (
+        <SuccessMask>
+          <div className='flex flex-col items-center'>
+            <div>提交成功！请查看邮箱并点击确认链接</div>
+            <div>（别忘了查看垃圾邮件！）</div>
+          </div>
+        </SuccessMask>
+      )}
+
+      <div className='flex m-4 md:w-[50rem] w-[25rem] bg-white rounded-xl shadow-2xl overflow-hidden'>
+        {/* Left half - Background */}
+        <div className='hidden w-1/2 from-primary md:block'>
+          <img
+            src='/auth-bg.jpg'
+            alt='A background'
+            className='w-full h-full object-fit'
+          />
+        </div>
+
+        {/* Right half - Form */}
+        <div className='w-full md:w-1/2 p-12 pb-10 flex items-center justify-center'>
+          <div className='w-full space-y-6'>
+            <div className='text-left'>
+              <h2 className='text-3xl font-semibold'>加入Portrayal 🙋🏻</h2>
+              <p className='mt-2 text-sm text-muted-foreground'>
+                建立一个账户以获得最佳体验
+              </p>
             </div>
-          </SuccessMask>
-        )}
-        <LazyMotion features={domAnimation}>
-          <m.div className='flex items-center gap-2 pb-4'>
-            <AnimatePresence initial={false} mode='popLayout'>
-              {page >= 1 && (
-                <m.div
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -10 }}
-                  initial={{ opacity: 0, x: -10 }}
-                >
-                  <Tooltip content='Go back' delay={3000}>
-                    <Button
-                      isIconOnly
-                      size='sm'
-                      variant='flat'
-                      onPress={() => paginate(-1)}
-                    >
-                      <Icon
-                        className='text-default-500'
-                        icon='solar:alt-arrow-left-linear'
-                        width={16}
-                      />
-                    </Button>
-                  </Tooltip>
-                </m.div>
-              )}
-            </AnimatePresence>
 
-            <AnimatePresence custom={direction} initial={false} mode='wait'>
-              <m.div
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -100 }}
-                initial={{ opacity: 0, x: -100 }}
-              >
-                {page === 0 ? (
-                  <m.div>
-                    <m.div className='text-2xl font-semibold'>
-                      <m.h1>{titles[0]}</m.h1>
-                    </m.div>
-                    <m.div className='text-md my-1 text-gray-400'>
-                      已经有账户了?&nbsp;
-                      <Link
-                        href='/auth/login'
-                        color='secondary'
-                        className='text-md link-animated'
-                      >
-                        登录
-                      </Link>
-                    </m.div>
-                  </m.div>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className='space-y-2'>
+                <div className='flex gap-4'>
+                  <div className='space-y-1 w-[6rem]'>
+                    <Label htmlFor='name'>你的名字</Label>
+                    <Input
+                      id='name'
+                      placeholder='John Doe'
+                      {...register('nickname')}
+                    />
+                    <div className='text-sm text-red-500'>
+                      {errors.nickname?.message}
+                    </div>
+                  </div>
+
+                  <div className='space-y-1 flex-1'>
+                    <Label htmlFor='email'>你的邮箱</Label>
+                    <Input
+                      id='email'
+                      type='email'
+                      placeholder='john@example.com'
+                      {...register('email')}
+                    />
+                    <div className='text-sm text-red-500'>
+                      {errors.email?.message}
+                    </div>
+                  </div>
+                </div>
+
+                <div className='space-y-1'>
+                  <Label htmlFor='password'>密码</Label>
+                  <Input
+                    id='password'
+                    type='password'
+                    {...register('password')}
+                  />
+                  <div className='text-sm text-red-500'>
+                    {errors.password?.message}
+                  </div>
+                </div>
+
+                <div className='space-y-1'>
+                  <Label htmlFor='confirm-password'>确认密码</Label>
+                  <Input
+                    id='confirm-password'
+                    type='password'
+                    {...register('confirm')}
+                  />
+                  <div className='text-sm text-red-500'>
+                    {errors.confirm?.message}
+                  </div>
+                </div>
+              </div>
+
+              <div className='mt-4'>
+                {isSubmitting ? (
+                  <Button disabled className='w-full'>
+                    <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                    正在提交...
+                  </Button>
                 ) : (
-                  <m.div>
-                    <m.h1 className='text-xl font-medium'>{titles[page]}</m.h1>
-                  </m.div>
+                  <Button type='submit' className='w-full'>
+                    立即提交！
+                  </Button>
                 )}
-              </m.div>
-            </AnimatePresence>
-          </m.div>
 
-          <AnimatePresence custom={direction} initial={false} mode='wait'>
-            <m.form
-              key={page}
-              animate='center'
-              className='flex flex-col gap-3'
-              custom={direction}
-              exit='exit'
-              initial='enter'
-              transition={{ duration: 0.2 }}
-              variants={variants}
-              onSubmit={handleSubmit}
-            >
-              {page === 0 && (
-                <div className='flex flex-col gap-4'>
-                  <Input
-                    isRequired
-                    label='你的名字'
-                    name='name'
-                    isInvalid={false}
-                  />
-                  <Input
-                    isRequired
-                    label='你的邮箱'
-                    name='email'
-                    type='email'
-                    validationState={isEmailValid ? 'valid' : 'invalid'}
-                    value={email}
-                    onValueChange={(value) => {
-                      setIsEmailValid(true)
-                      setEmail(value)
-                    }}
-                  />
+                <div className='w-full my-2 flex justify-center text-slate-500'>
+                  已经有账号了？
+                  <a className='link-animated text-blue-600' href='/auth/login'>
+                    立即登录
+                  </a>
                 </div>
-              )}
-              {page === 1 && (
-                <div className='flex flex-col gap-4'>
-                  <Input
-                    isRequired
-                    endContent={
-                      <button type='button' onClick={togglePasswordVisibility}>
-                        {isPasswordVisible ? (
-                          <Icon
-                            className='pointer-events-none text-2xl text-default-400'
-                            icon='solar:eye-closed-linear'
-                          />
-                        ) : (
-                          <Icon
-                            className='pointer-events-none text-2xl text-default-400'
-                            icon='solar:eye-bold'
-                          />
-                        )}
-                      </button>
-                    }
-                    label='设置一个密码'
-                    name='password'
-                    type={isPasswordVisible ? 'text' : 'password'}
-                    validationState={isPasswordValid ? 'valid' : 'invalid'}
-                    value={password}
-                    onValueChange={(value) => {
-                      setIsPasswordValid(true)
-                      setPassword(value)
-                    }}
-                  />
-                  <Input
-                    isRequired
-                    endContent={
-                      <button
-                        type='button'
-                        onClick={toggleConfirmPasswordVisibility}
-                      >
-                        {isConfirmPasswordVisible ? (
-                          <Icon
-                            className='pointer-events-none text-2xl text-default-400'
-                            icon='solar:eye-closed-linear'
-                          />
-                        ) : (
-                          <Icon
-                            className='pointer-events-none text-2xl text-default-400'
-                            icon='solar:eye-bold'
-                          />
-                        )}
-                      </button>
-                    }
-                    errorMessage={
-                      !isConfirmPasswordValid ? '密码不匹配' : undefined
-                    }
-                    label='确认密码'
-                    name='confirmPassword'
-                    type={isConfirmPasswordVisible ? 'text' : 'password'}
-                    validationState={
-                      isConfirmPasswordValid ? 'valid' : 'invalid'
-                    }
-                    value={confirmPassword}
-                    onValueChange={(value) => {
-                      setIsConfirmPasswordValid(true)
-                      setConfirmPassword(value)
-                    }}
-                  />
-                </div>
-              )}
-
-              <Button fullWidth color='primary' type='submit' className='mt-2'>
-                {page === 0 && '继续'}
-                {page === 1 && '加入Portrayal！'}
-              </Button>
-            </m.form>
-          </AnimatePresence>
-        </LazyMotion>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   )

@@ -22,7 +22,7 @@ export const DetailsModal = ({
   setOpened: (isOpened: boolean) => void
 }) => {
   return (
-    <Modal isOpen={isOpened} onOpenChange={(isOpened) => setOpened(isOpened)}>
+    <Modal scrollBehavior='outside' isOpen={isOpened} onOpenChange={(isOpened) => setOpened(isOpened)}>
       <ModalContent>
         {(onClose) => (
           <div>
