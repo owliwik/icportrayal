@@ -1,70 +1,65 @@
 'use client'
 
-import {
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-} from '@nextui-org/navbar'
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@nextui-org/navbar'
 import { Button } from '@nextui-org/button'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { cn } from '@nextui-org/theme'
-import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase/client'
 import { useUser } from './context/UserContext'
+import { Search } from 'lucide-react'
 
 const Navigation = () => {
-  const current = usePathname().split('/')[1]
-  
+  const pathname = usePathname()
+  const currentSegment = pathname.split('/')[1]
+
   const { user, updateUser } = useUser()
-  const router = useRouter()
+
+  const navItems = [
+    { label: 'Home', href: '/home', matches: ['home', 'news'] },
+    { label: 'Activities', href: '/activities', matches: ['activities'] },
+    { label: 'Artworks', href: '/artworks', matches: ['artworks'] },
+    { label: 'IC Portrayal', href: '/ic-portrayal', matches: ['ic-portrayal'] },
+    { label: 'Resources', href: '/resources', matches: ['resources'] },
+    { label: 'Alumni', href: '/alumni', matches: ['alumni'] },
+    { label: 'About', href: '/about', matches: ['about'] },
+  ]
 
   return (
-    <Navbar shouldHideOnScroll>
+    <Navbar className='fixed top-0 left-0 right-0 z-50' isBordered>
       <NavbarBrand>
-        <a href='/'>
-          <p className='text-2xl font-bold'>IC Portrayal</p>
-        </a>
+        <Link href='/' className='text-2xl font-bold'>
+          IC Portrayal
+        </Link>
       </NavbarBrand>
-      <NavbarContent
-        className='flex gap-4 text-large font-light'
-        justify='center'
-      >
-        <NavbarItem className='text-size-inherit'>
-          <a
-            href='/home'
-            className={cn('py-2 px-4 rounded-[1000rem]', 'nav-link')}
-          >
-            主页
-          </a>
-        </NavbarItem>
-        <NavbarItem className='text-size-inherit'>
-          <a
-            href='/community'
-            className={cn('py-2 px-4 rounded-[1000rem]', 'nav-link')}
-          >
-            社区论坛
-          </a>
-        </NavbarItem>
-        <NavbarItem className='text-size-inherit'>
-          <a
-            href='/clubs'
-            className={cn('py-2 px-4 rounded-[1000rem]', 'nav-link')}
-          >
-            社团
-          </a>
-        </NavbarItem>
-        <NavbarItem className='text-size-inherit'>
-          <a
-            href='/about'
-            className={cn('py-2 px-4 rounded-[1000rem]', 'nav-link')}
-          >
-            关于我们
-          </a>
-        </NavbarItem>
+      <NavbarContent className='flex gap-2 text-base font-medium' justify='center'>
+        {navItems.map((item) => {
+          const isActive =
+            item.matches.includes(currentSegment) ||
+            pathname.startsWith(`${item.href}/`)
+
+          return (
+            <NavbarItem key={item.href}>
+              <Link
+                href={item.href}
+                aria-current={isActive ? 'page' : undefined}
+                className={cn('nav-link', isActive && 'nav-link-active')}
+              >
+                {item.label}
+              </Link>
+            </NavbarItem>
+          )
+        })}
       </NavbarContent>
       <NavbarContent justify='end'>
+        <Button
+          isIconOnly
+          variant='light'
+          aria-label='Search'
+          className='text-default-600'
+        >
+          <Search className='h-4 w-4' />
+        </Button>
         {user ? (
           <div className='flex gap-2'>
             <Button
@@ -78,16 +73,20 @@ const Navigation = () => {
             >
               退出登录
             </Button>
-            <a href='/home'>
+            <Link href='/home'>
               <Button variant='flat'>{user.user_metadata.display_name}</Button>
-            </a>
+            </Link>
           </div>
         ) : (
-          <a href='/auth/login'>
-            <Button variant='flat'>登入</Button>
-          </a>
+          <div className='flex gap-2'>
+            <Link href='/auth/login'>
+              <Button variant='flat'>登录</Button>
+            </Link>
+            <Link href='/auth/signup'>
+              <Button color='primary'>注册</Button>
+            </Link>
+          </div>
         )}
-        
       </NavbarContent>
     </Navbar>
   )

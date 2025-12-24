@@ -11,7 +11,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <body className='w-full min-h-[100vh] h-1 flex flex-col'>
         <UserProvider>
           <Navigation />
-          <main className='flex-1 bg-[#F7F9FE] bg-opacity-80'>{children}</main>
+          <main className='flex-1 bg-[#F7F9FE] bg-opacity-80 pt-24'>
+            {children}
+          </main>
           <Toaster />
         </UserProvider>
       </body>
