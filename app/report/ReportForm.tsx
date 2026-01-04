@@ -3,7 +3,7 @@
 import { Club, clubActivitySchema } from '@/lib/types/club'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import {
   Autocomplete,
   AutocompleteItem,
@@ -20,6 +20,8 @@ import { useEffect } from 'react'
 import sleep from '@/lib/sleep'
 import { supabase } from '@/lib/supabase/client'
 
+type ClubActivitySchema = z.infer<typeof clubActivitySchema>
+
 export const ReportForm = () => {
   const [clubs, setClubs] = useState<Club[]>()
   useEffect(() => {
@@ -34,18 +36,15 @@ export const ReportForm = () => {
   }, [])
 
   const {
+    control,
     register,
     handleSubmit,
     getValues,
-    setValue,
-    watch,
     clearErrors,
     formState: { errors, isSubmitting },
-  } = useForm<z.infer<typeof clubActivitySchema>>({
+  } = useForm<ClubActivitySchema>({
     resolver: zodResolver(clubActivitySchema),
   })
-
-  interface ClubActivitySchema extends z.infer<typeof clubActivitySchema> {}
 
   const onSubmit = async (data: ClubActivitySchema) => {
     const formData = new FormData()
@@ -81,39 +80,55 @@ export const ReportForm = () => {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4'>
-        <Autocomplete
-          label='选择社团'
-          isInvalid={!!errors.clubName}
-          errorMessage={errors.clubName?.message}
-          scrollShadowProps={{
-            isEnabled: false,
-          }}
-          value={watch('clubName')}
-          onSelectionChange={(v) => {
-            if (v) {
-              console.log(v)
-              setValue('clubName', v.toString())
-              clearErrors('clubName')
-            }
-          }}
-        >
-          {clubs
-            ? clubs.map((club) => (
-                <AutocompleteItem key={club.name}>{club.name}</AutocompleteItem>
-              ))
-            : []}
-        </Autocomplete>
+        <Controller
+          name='clubName'
+          control={control}
+          render={({ field }) => (
+            <Autocomplete
+              label='选择社团'
+              isInvalid={!!errors.clubName}
+              errorMessage={errors.clubName?.message}
+              scrollShadowProps={{
+                isEnabled: false,
+              }}
+              value={field.value}
+              onSelectionChange={(v) => {
+                if (v) {
+                  console.log(v)
+                  field.onChange(v.toString())
+                  clearErrors('clubName')
+                }
+              }}
+            >
+              {clubs
+                ? clubs.map((club) => (
+                    <AutocompleteItem key={club.name}>
+                      {club.name}
+                    </AutocompleteItem>
+                  ))
+                : []}
+            </Autocomplete>
+          )}
+        />
 
         <div className='flex gap-2'>
-          <DatePicker
-            label='活动日期'
-            isInvalid={!!errors.date}
-            errorMessage={errors.date?.message}
-            value={watch('date')}
-            onChange={(v) => {
-              setValue('date', v)
-              clearErrors('date')
-            }}
+          <Controller
+            name='date'
+            control={control}
+            render={({ field }) => (
+              <DatePicker
+                label='活动日期'
+                isInvalid={!!errors.date}
+                errorMessage={errors.date?.message}
+                value={field.value}
+                onChange={(v) => {
+                  if (v) {
+                    field.onChange(v)
+                    clearErrors('date')
+                  }
+                }}
+              />
+            )}
           />
 
           <Input
@@ -125,17 +140,24 @@ export const ReportForm = () => {
         </div>
 
         <div className='my-4'>
-          <Input
-            label='上传活动照片（拖拽）'
-            type='file'
-            isInvalid={!!errors.image}
-            errorMessage={errors.image?.message}
-            onChange={(v) => {
-              if (v.target.files) {
-                setValue('image', v.target.files[0])
-                clearErrors('image')
-              }
-            }}
+          <Controller
+            name='image'
+            control={control}
+            render={({ field }) => (
+              <Input
+                label='上传活动照片（拖拽）'
+                type='file'
+                isInvalid={!!errors.image}
+                errorMessage={errors.image?.message}
+                onChange={(v) => {
+                  const file = v.target.files?.[0]
+                  if (file) {
+                    field.onChange(file)
+                    clearErrors('image')
+                  }
+                }}
+              />
+            )}
           />
         </div>
 
