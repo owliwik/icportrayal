@@ -7,7 +7,6 @@ import { usePathname } from 'next/navigation'
 import { cn } from '@nextui-org/theme'
 import { supabase } from '@/lib/supabase/client'
 import { useUser } from './context/UserContext'
-import { Search } from 'lucide-react'
 
 const Navigation = () => {
   const pathname = usePathname()
@@ -19,7 +18,7 @@ const Navigation = () => {
     { label: 'Home', href: '/home', matches: ['home', 'news'] },
     { label: 'Activities', href: '/activities', matches: ['activities'] },
     { label: 'Artworks', href: '/artworks', matches: ['artworks'] },
-    { label: 'IC Portrayal', href: '/ic-portrayal', matches: ['ic-portrayal'] },
+    { label: '社团页', href: '/clubs', matches: ['clubs'] },
     { label: 'Resources', href: '/resources', matches: ['resources'] },
     { label: 'Alumni', href: '/alumni', matches: ['alumni'] },
     { label: 'About', href: '/about', matches: ['about'] },
@@ -52,14 +51,6 @@ const Navigation = () => {
         })}
       </NavbarContent>
       <NavbarContent justify='end'>
-        <Button
-          isIconOnly
-          variant='light'
-          aria-label='Search'
-          className='text-default-600'
-        >
-          <Search className='h-4 w-4' />
-        </Button>
         {user ? (
           <div className='flex gap-2'>
             <Button

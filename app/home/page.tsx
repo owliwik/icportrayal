@@ -10,9 +10,11 @@ const Page = () => {
             Welcome
           </p>
           <h1 className='mt-4 text-3xl md:text-4xl font-semibold text-slate-900'>
-            欢迎来到 BHSF IC 学生官方网站
+            欢迎来到 BHSFIC 学生官方网站
           </h1>
-          <p className='mt-3 text-lg text-slate-500'>学生官方平台</p>
+          <p className='mt-3 text-lg text-slate-500'>
+            Official student platform
+          </p>
           <div className='mt-6 flex gap-3'>
             <Link
               href='/resources'
@@ -34,7 +36,7 @@ const Page = () => {
         <div className='flex items-center justify-between mb-6'>
           <h2 className='text-2xl font-semibold text-slate-900'>NEWS</h2>
           <span className='text-sm text-slate-400'>
-            最新动态与公告
+            Latest updates &amp; announcements
           </span>
         </div>
         <div className='space-y-4'>
