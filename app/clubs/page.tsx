@@ -10,7 +10,7 @@ const Page = async () => {
   const { session } = await getSession()
   if (session) {
     const data = await adminDB.listDocuments(MAIN_DB, CLUBS)
-    clubs = data.documents as Club[]
+    clubs = data.documents as unknown as Club[]
   }
 
   return (
