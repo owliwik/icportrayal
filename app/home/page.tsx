@@ -15,15 +15,6 @@ const Page = () => {
           <p className='mt-3 text-lg text-slate-500'>
             BHSFIC Official student platform
           </p>
-          <p className='mt-3 text-lg text-slate-500'>
-            BHSFIC Official student platform
-          </p>
-          <p className='mt-3 text-lg text-slate-500'>
-            BHSFIC Official student platform
-          </p>
-          <p className='mt-3 text-lg text-slate-500'>
-            BHSFIC Official student platform
-          </p>
           <div className='mt-6 flex gap-3'>
             <Link
               href='/resources'

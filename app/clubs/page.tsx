@@ -1,24 +1,17 @@
-'use client'
-
 import { Button } from '@nextui-org/button'
 import Link from 'next/link'
-import { ClubGrid } from './ClubGrid'
-import { useEffect, useState } from 'react'
 import { Club } from '@/lib/types/club'
-import { supabase } from '@/lib/supabase/client'
+import { adminDB, getSession } from '@/app/api/appwrite'
+import { CLUBS, MAIN_DB } from '@/app/api/db'
+import { ClubPageClient } from './ClubPageClient'
 
-const Page = () => {
-  const [clubs, setClubs] = useState<Club[]>()
-  useEffect(() => {
-    const run = async () => {
-      const response = await supabase.from('clubs').select('*')
-      console.log(response)
-      if (response.data) {
-        setClubs(response.data)
-      }
-    }
-    run()
-  }, [])
+const Page = async () => {
+  let clubs: Club[] = []
+  const { session } = await getSession()
+  if (session) {
+    const data = await adminDB.listDocuments(MAIN_DB, CLUBS)
+    clubs = data.documents as Club[]
+  }
 
   return (
     <div className='w-full h-full flex flex-col items-center'>
@@ -31,7 +24,7 @@ const Page = () => {
         </div>
       </div>
 
-      <ClubGrid clubs={clubs} />
+      <ClubPageClient clubs={clubs} />
     </div>
   )
 }
