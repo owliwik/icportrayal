@@ -6,13 +6,8 @@ import { ClubGrid } from './ClubGrid'
 import { useEffect, useState } from 'react'
 import { Club } from '@/lib/types/club'
 import { supabase } from '@/lib/supabase/client'
-import { useRouter } from 'next/navigation'
-import { useUser } from '@/components/context/UserContext'
-import { BackgroundGradient } from '@/components/ui/background-gradient'
-import Protection from '@/components/protection'
 
 const Page = () => {
-  const { user, updateUser } = useUser()
   const [clubs, setClubs] = useState<Club[]>()
   useEffect(() => {
     const run = async () => {
@@ -28,7 +23,7 @@ const Page = () => {
   return (
     <div className='w-full h-full flex flex-col items-center'>
       <div className='w-[60rem] flex justify-center my-16 relative'>
-        <div className='text-4xl font-thin'>Our Clubs · 我们的社团</div>
+        <div className='text-4xl font-thin'>Our Clubs</div>
         <div className='absolute right-0'>
           <Link href='/report'>
             <Button color='primary'>活动打卡</Button>
@@ -36,11 +31,7 @@ const Page = () => {
         </div>
       </div>
 
-      {user ? (
-        <ClubGrid clubs={clubs} />
-      ) : (
-        <Protection />
-      )}
+      <ClubGrid clubs={clubs} />
     </div>
   )
 }

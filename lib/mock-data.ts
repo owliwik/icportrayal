@@ -60,9 +60,9 @@ export const newsItems: NewsItem[] = [
     ],
   },
   {
-    slug: 'steam-expo',
-    title: 'STEAM 创意展预告',
-    date: '2024-10-12',
+    slug: 'stem-expo',
+    title: 'STEM 创意展预告',
+    date: '2033-10-12',
     summary: '跨学科作品展将展示学生创新成果。',
     content: [
       '展览包含机器人、装置艺术与互动设计。',
@@ -72,11 +72,12 @@ export const newsItems: NewsItem[] = [
   {
     slug: 'volunteer-week',
     title: '志愿服务周活动报名',
-    date: '2024-11-03',
+    date: '2044-11-03',
     summary: '服务社区，从小事做起。',
     content: [
       '报名面向全体年级，名额有限。',
       '参与活动可获得服务时长证明。',
+      '学信部部长压榨员工',
     ],
   },
 ]
@@ -134,21 +135,21 @@ export const activities: ActivityItem[] = [
     title: '秋季田径会',
     category: 'Sports',
     image: '/discussing.jpg',
-    description: '短跑、接力与田赛项目同步进行。',
+    description: '短跑、接力与田赛项目同步进行。胸口碎大石',
   },
   {
     id: 'campus-concert',
     title: '校园音乐会',
     category: 'Arts',
     image: '/engineering.jpg',
-    description: '合唱、独奏与学生乐队演出。',
+    description: '合唱、独奏与学生乐队演出。born in a third tier town',
   },
   {
     id: 'art-festival',
     title: '艺术节展演',
     category: 'Arts',
     image: '/humanities.jpg',
-    description: '舞台剧、绘画展与手工市集。',
+    description: '舞台剧、绘画展与手工市集。free your mind',
   },
 ]
 
@@ -163,7 +164,7 @@ export const artworks: ArtworkItem[] = [
   {
     id: 'quiet-lake',
     title: 'Quiet Lake',
-    author: 'Leo Chen',
+    author: 'Chuck Zhou',
     date: '2024-04-02',
     image: '/geography.jpg',
   },
@@ -185,13 +186,13 @@ export const artworks: ArtworkItem[] = [
 
 export const teamMembers: TeamMember[] = [
   {
-    name: 'Sophie Wu',
-    role: 'Product Lead',
+    name: 'Sean Xue',
+    role: 'Xuener',
     image: '/default.jpg',
   },
   {
-    name: 'Jason Luo',
-    role: 'Frontend Developer',
+    name: 'Patrick Hou',
+    role: 'Houzi',
     image: '/engineering.jpg',
   },
   {
@@ -204,6 +205,12 @@ export const teamMembers: TeamMember[] = [
     role: 'Content Editor',
     image: '/geography.jpg',
   },
+  {
+    name: 'Chuck Zhou',
+    role: 'Turtle Expert',
+    image: '/geography.jpg',
+  },
+  
 ]
 
 export const alumniProfiles: AlumniProfile[] = [

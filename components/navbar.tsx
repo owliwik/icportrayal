@@ -18,7 +18,7 @@ const Navigation = () => {
     { label: 'Home', href: '/home', matches: ['home', 'news'] },
     { label: 'Activities', href: '/activities', matches: ['activities'] },
     { label: 'Artworks', href: '/artworks', matches: ['artworks'] },
-    { label: '社团页', href: '/clubs', matches: ['clubs'] },
+    { label: 'Club', href: '/clubs', matches: ['clubs'] },
     { label: 'Resources', href: '/resources', matches: ['resources'] },
     { label: 'Alumni', href: '/alumni', matches: ['alumni'] },
     { label: 'About', href: '/about', matches: ['about'] },
