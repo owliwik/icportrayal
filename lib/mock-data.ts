@@ -57,10 +57,11 @@ export const newsItems: NewsItem[] = [
       '2026 studyguide released!!!',
       '写完了你知道吗',
       '加班写三天 把这个studyguide网站写完了',
+    ],
   },
   {
     slug: 'volunteer-week',
-    title: 'IC Portrayal RenovationProject Innital',
+    title: 'IC Portrayal Renovation Project Innital',
     date: '2026-01-08',
     summary: '网站开发中，更多功能敬请期待',
     content: [
