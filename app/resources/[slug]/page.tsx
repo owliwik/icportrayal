@@ -17,11 +17,21 @@ import {
   DnaIcon,
   BookTextIcon,
   ChevronRightIcon,
-  BarChartIcon
+  BarChartIcon,
+  GlobeIcon,      // 用于人文社科
+  MusicIcon,      // 用于音乐和其他
+  CpuIcon,        // 用于计算机科学
+  BrainIcon,      // 用于心理学
+  LeafIcon,       // 用于环境科学
+  MapIcon,        // 用于地理
+  HistoryIcon,     // 用于历史
+  Calculator
 } from 'lucide-react'
 
 // 更新分类配置 - 化学和生物分开
+// 在详情页中更新 RESOURCE_CATEGORIES 配置
 const RESOURCE_CATEGORIES = [
+  // G10 分类
   {
     id: 'g10-math',
     title: 'G10 数学资料',
@@ -30,15 +40,6 @@ const RESOURCE_CATEGORIES = [
     subject: '数学',
     db_categories: ['G10 Precal'],
     color: { bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200', gradient: 'from-blue-500 to-blue-600' }
-  },
-  {
-    id: 'g11-math',
-    title: 'G11 数学资料',
-    description: 'G11微积分（CalBC）等高等数学学习资料',
-    grade: 'G11',
-    subject: '数学',
-    db_categories: ['G10/11 CalBC'],
-    color: { bg: 'bg-blue-100', text: 'text-blue-800', border: 'border-blue-300', gradient: 'from-blue-400 to-blue-500' }
   },
   {
     id: 'g10-physics',
@@ -75,10 +76,66 @@ const RESOURCE_CATEGORIES = [
     subject: '英语',
     db_categories: ['G10 preap english', 'G10 wordlist'],
     color: { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200', gradient: 'from-amber-500 to-amber-600' }
+  },
+  
+  // G11 分类
+  {
+    id: 'g11-math-calc',
+    title: 'G11 微积分资料',
+    description: 'G11微积分BC、统计等高等数学学习资料',
+    grade: 'G11',
+    subject: '数学',
+    db_categories: ['G11 Calculus BC', 'G11 Statistics'],
+    color: { bg: 'bg-blue-100', text: 'text-blue-800', border: 'border-blue-300', gradient: 'from-blue-400 to-blue-500' }
+  },
+  {
+    id: 'g11-physics',
+    title: 'G11 物理资料',
+    description: 'G11物理C、物理2等AP物理课程学习资料',
+    grade: 'G11',
+    subject: '物理',
+    db_categories: ['G11 Physics C', 'G11 Physics 2'],
+    color: { bg: 'bg-purple-100', text: 'text-purple-800', border: 'border-purple-300', gradient: 'from-purple-400 to-purple-500' }
+  },
+  {
+    id: 'g11-science',
+    title: 'G11 科学资料',
+    description: 'G11化学、生物、环境科学等AP科学课程学习资料',
+    grade: 'G11',
+    subject: '科学',
+    db_categories: ['G11 Chemistry', 'G11 Biology', 'G11 APES'],
+    color: { bg: 'bg-green-100', text: 'text-green-800', border: 'border-green-300', gradient: 'from-green-400 to-green-500' }
+  },
+  {
+    id: 'g11-english',
+    title: 'G11 英语资料',
+    description: 'G11 AP语言、荣誉英语等人文课程学习资料',
+    grade: 'G11',
+    subject: '英语',
+    db_categories: ['G11 APLang', 'G11 Honors English'],
+    color: { bg: 'bg-amber-100', text: 'text-amber-800', border: 'border-amber-300', gradient: 'from-amber-400 to-amber-500' }
+  },
+  {
+    id: 'g11-humanities',
+    title: 'G11 人文社科资料',
+    description: 'G11 AP历史、地理、心理学等社科课程学习资料',
+    grade: 'G11',
+    subject: '人文社科',
+    db_categories: ['G11 HG', 'G11 APUSH', 'G11 Micro', 'G11 Psyco'],
+    color: { bg: 'bg-red-50', text: 'text-red-700', border: 'border-red-200', gradient: 'from-red-500 to-red-600' }
+  },
+  {
+    id: 'g11-other',
+    title: 'G11 其他课程资料',
+    description: 'G11音乐理论、计算机科学等其他学科学习资料',
+    grade: 'G11',
+    subject: '其他',
+    db_categories: ['G11 Music Theory', 'APCSP'],
+    color: { bg: 'bg-indigo-50', text: 'text-indigo-700', border: 'border-indigo-200', gradient: 'from-indigo-500 to-indigo-600' }
   }
 ]
 
-// 获取分类图标
+// 更新 getCategoryIcon 函数
 const getCategoryIcon = (subject: string) => {
   switch (subject) {
     case '数学': return CalculatorIcon
@@ -86,7 +143,25 @@ const getCategoryIcon = (subject: string) => {
     case '化学': return BeakerIcon
     case '生物': return DnaIcon
     case '英语': return BookTextIcon
-    default: return BeakerIcon
+    case '科学': return BeakerIcon
+    case '人文社科': return GlobeIcon  // 需要导入
+    case '其他': return MusicIcon      // 需要导入
+    default: return CalculatorIcon
+  }
+}
+
+// 更新 getCategoryColor 函数
+const getCategoryColor = (subject: string) => {
+  switch (subject) {
+    case '数学': return { bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200' }
+    case '物理': return { bg: 'bg-purple-50', text: 'text-purple-700', border: 'border-purple-200' }
+    case '化学': return { bg: 'bg-green-50', text: 'text-green-700', border: 'border-green-200' }
+    case '生物': return { bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-200' }
+    case '英语': return { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200' }
+    case '科学': return { bg: 'bg-teal-50', text: 'text-teal-700', border: 'border-teal-200' }
+    case '人文社科': return { bg: 'bg-red-50', text: 'text-red-700', border: 'border-red-200' }
+    case '其他': return { bg: 'bg-indigo-50', text: 'text-indigo-700', border: 'border-indigo-200' }
+    default: return { bg: 'bg-slate-50', text: 'text-slate-700', border: 'border-slate-200' }
   }
 }
 
