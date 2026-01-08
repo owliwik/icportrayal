@@ -57,7 +57,9 @@ export const ClubCard = (club: Club) => {
 
         <div className='flex-1 p-3 relative min-h-[60px]'>
           <div className='text-xs mb-1 line-clamp-1'>
-            社长: {club.leaders?.[0] || '未指定'}
+            社长: {club.leaders && club.leaders.length > 0 
+              ? club.leaders.join('、')  // 用中文顿号分隔
+              : '未指定'}
           </div>
           <div className='text-xs text-slate-500 line-clamp-1'>
             {club.isOfficial ? '正式社团' : '兴趣小组'}
