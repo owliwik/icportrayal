@@ -12,9 +12,7 @@ export const clubSchema = z.object({
   contact: z.string().min(2).max(32).optional(),
   description: z.string().max(128).optional(),
   type: z.string().optional(),
-  activityDay: z
-    .enum(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'])
-    .optional(),
+  activityDay: z.string().optional(),
   activityPlace: z.string().min(2).max(16).optional(),
   activityIntro: z.string().max(128).optional(),
 })
