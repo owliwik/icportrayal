@@ -50,36 +50,34 @@ export type AlumniProfile = {
 export const newsItems: NewsItem[] = [
   {
     slug: 'club-fair-2024',
-    title: '2024 俱乐部招新开启',
-    date: '2024-09-01',
-    summary: '校内社团集中展示，欢迎同学们报名加入。',
+    title: '2026 Final studyguide released!!!',
+    date: '2026-01-08',
+    summary: '祝大家期末顺利',
     content: [
-      '本次招新覆盖学术、运动、艺术等多个方向。',
-      '现场可领取社团介绍册，并参与体验活动。',
-      '详情请关注公告栏与班级群通知。',
+      '2026 studyguide released!!!',
+      '写完了你知道吗',
+      '加班写三天 把这个studyguide网站写完了',
+  },
+  {
+    slug: 'volunteer-week',
+    title: 'IC Portrayal RenovationProject Innital',
+    date: '2026-01-08',
+    summary: '网站开发中，更多功能敬请期待',
+    content: [
+      '网站开发中，更多功能敬请期待',
     ],
   },
   {
     slug: 'stem-expo',
-    title: 'STEM 创意展预告',
-    date: '2033-10-12',
-    summary: '跨学科作品展将展示学生创新成果。',
+    title: '2026新年舞会',
+    date: '2026-01-01',
+    summary: '新年舞会 雪域来信',
     content: [
-      '展览包含机器人、装置艺术与互动设计。',
-      '活动期间安排作品讲解与评审环节。',
+      '新年舞会 来的人很多',
+      '很多人来 活动很好 大家很开心',
     ],
   },
-  {
-    slug: 'volunteer-week',
-    title: '志愿服务周活动报名',
-    date: '2044-11-03',
-    summary: '服务社区，从小事做起。',
-    content: [
-      '报名面向全体年级，名额有限。',
-      '参与活动可获得服务时长证明。',
-      '学信部部长压榨员工',
-    ],
-  },
+
 ]
 
 export const resourceCategories: ResourceCategory[] = [
@@ -128,7 +126,7 @@ export const activities: ActivityItem[] = [
     title: '篮球联赛',
     category: 'Sports',
     image: '/default.jpg',
-    description: '班级对抗赛与校际友谊赛安排。',
+    description: '班级对抗赛与校际友谊赛安排。蔡徐坤打篮球。',
   },
   {
     id: 'track-meet',
@@ -149,7 +147,7 @@ export const activities: ActivityItem[] = [
     title: '艺术节展演',
     category: 'Arts',
     image: '/humanities.jpg',
-    description: '舞台剧、绘画展与手工市集。free your mind',
+    description: '舞台剧、绘画展与手工市集。skies always gray',
   },
 ]
 
@@ -163,7 +161,7 @@ export const artworks: ArtworkItem[] = [
   },
   {
     id: 'quiet-lake',
-    title: 'Quiet Lake',
+    title: '大乌龟',
     author: 'Chuck Zhou',
     date: '2024-04-02',
     image: '/geography.jpg',
@@ -175,39 +173,33 @@ export const artworks: ArtworkItem[] = [
     date: '2024-04-20',
     image: '/engineering.jpg',
   },
-  {
-    id: 'sketches',
-    title: 'Sketches',
-    author: 'Yuki Tan',
-    date: '2024-05-09',
-    image: '/default.jpg',
-  },
+
 ]
 
 export const teamMembers: TeamMember[] = [
   {
-    name: 'Sean Xue',
-    role: 'Xuener',
-    image: '/default.jpg',
-  },
-  {
-    name: 'Patrick Hou',
-    role: 'Houzi',
-    image: '/engineering.jpg',
-  },
-  {
-    name: 'Mia Guo',
-    role: 'Visual Designer',
+    name: '李为有',
+    role: '网站创始人',
     image: '/humanities.jpg',
   },
   {
-    name: 'Ethan Sun',
-    role: 'Content Editor',
+    name: '李浩民',
+    role: '2026级学信部部长',
+    image: '/default.jpg',
+  },
+  {
+    name: '侯飞升',
+    role: '2026级学信部部员，网站开发者',
+    image: '/engineering.jpg',
+  },
+  {
+    name: '王明远',
+    role: '2026级学信部部员，网站开发者',
     image: '/geography.jpg',
   },
   {
-    name: 'Chuck Zhou',
-    role: 'Turtle Expert',
+    name: '钱曦文',
+    role: '2027级学信部部员，后端开发者',
     image: '/geography.jpg',
   },
   
