@@ -1,13 +1,32 @@
 import { NextResponse } from 'next/server'
-import { adminDB, getSession } from '@/app/api/appwrite'
-import { MAIN_DB, PROFILES } from '@/app/api/db'
+import { createServerClient } from '@/lib/supabase/server'
 
 export const GET = async (req: Request) => {
-  const { status, session } = await getSession()
-  if (!session) return NextResponse.json(null, { status })
+  const authHeader = req.headers.get('authorization')
+  const token = authHeader?.startsWith('Bearer ')
+    ? authHeader.slice('Bearer '.length)
+    : null
+  if (!token) return NextResponse.json(null, { status: 401 })
 
   try {
-    const profile = await adminDB.getDocument(MAIN_DB, PROFILES, session.userId)
+    const supabase = createServerClient(token)
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser()
+    if (userError || !user) {
+      return NextResponse.json(null, { status: 401 })
+    }
+
+    const { data: profile, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', user.id)
+      .single()
+    if (error) {
+      return NextResponse.json(null, { status: 500 })
+    }
+
     return NextResponse.json(profile)
   } catch (error: any) {
     console.log(error)

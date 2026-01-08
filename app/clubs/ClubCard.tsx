@@ -53,7 +53,7 @@ export const ClubCard = (club: Club) => {
           </div>
 
           <Button
-            onClick={() => setModalOpened(true)}
+            onPress={() => setModalOpened(true)}
             size='sm'
             className='py-5 absolute top-[50%] translate-y-[-50%] right-6 rounded-[100rem] flex justify-center items-center text-xl bg-blue-100 text-blue-500'
           >

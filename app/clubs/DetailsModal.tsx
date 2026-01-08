@@ -67,7 +67,7 @@ export const DetailsModal = ({
             </ModalBody>
 
             <ModalFooter>
-              <Button color='danger' variant='flat' onClick={onClose}>
+              <Button color='danger' variant='flat' onPress={onClose}>
                 关闭
               </Button>
             </ModalFooter>

@@ -56,7 +56,7 @@ const Navigation = () => {
             <Button
               variant='light'
               color='danger'
-              onClick={async () => {
+              onPress={async () => {
                 await supabase.auth.signOut()
                 updateUser(undefined)
                 console.log('LOG OUT')

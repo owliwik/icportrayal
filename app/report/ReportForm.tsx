@@ -23,10 +23,10 @@ import { supabase } from '@/lib/supabase/client'
 type ClubActivitySchema = z.infer<typeof clubActivitySchema>
 
 export const ReportForm = () => {
-  const [clubs, setClubs] = useState<Club[]>()
+  const [clubs, setClubs] = useState<Array<Pick<Club, 'name'>>>()
   useEffect(() => {
     const run = async () => {
-      const { data, error } = await supabase.from('clubs').select('*')
+      const { data, error } = await supabase.from('clubs').select('name')
       if (data) {
         setClubs(data)
       }
@@ -171,7 +171,7 @@ export const ReportForm = () => {
         <Button
           color='primary'
           type='submit'
-          onClick={() => console.log(getValues('image'))}
+          onPress={() => console.log(getValues('image'))}
         >
           {isSubmitting ? (
             <CgSpinner className='text-3xl animate-spinner-linear-spin' />

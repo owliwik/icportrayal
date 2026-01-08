@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import { Button } from '@nextui-org/button'
 import { Club } from '@/lib/types/club'
 import { ClubGrid } from './ClubGrid'
+import Link from 'next/link'
 
 type Category = 'sports' | 'academic' | 'interests'
 
@@ -35,6 +36,15 @@ export const ClubPageClient = ({ clubs }: { clubs: Club[] }) => {
 
   return (
     <>
+      <div className='w-[60rem] flex justify-center my-16 relative'>
+        <div className='text-4xl font-thin'>Our Clubs</div>
+        <div className='absolute right-0'>
+          <Link href='/report'>
+            <Button color='primary'>活动打卡</Button>
+          </Link>
+        </div>
+      </div>
+
       <div className='w-[60rem] flex justify-center gap-3 mb-10'>
         {CATEGORY_LABELS.map((category) => {
           const isActive = activeCategory === category.value
@@ -43,7 +53,7 @@ export const ClubPageClient = ({ clubs }: { clubs: Club[] }) => {
               key={category.value}
               variant={isActive ? 'solid' : 'bordered'}
               color={isActive ? 'primary' : 'default'}
-              onClick={() =>
+              onPress={() =>
                 setActiveCategory((prev) =>
                   prev === category.value ? null : category.value
                 )
