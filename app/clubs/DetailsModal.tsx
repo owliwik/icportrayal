@@ -1,3 +1,6 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import {
   Modal,
   ModalContent,
@@ -21,6 +24,59 @@ export const DetailsModal = ({
   isOpened: boolean
   setOpened: (isOpened: boolean) => void
 }) => {
+  const [details, setDetails] = useState<{
+    description: string
+    activityIntro: string
+  } | null>(null)
+  const [detailsLoading, setDetailsLoading] = useState(false)
+
+  useEffect(() => {
+    setDetails(null)
+  }, [club.$id])
+
+  useEffect(() => {
+    if (!isOpened || !club.$id) return
+    let isMounted = true
+    const controller = new AbortController()
+
+    const loadDetails = async () => {
+      setDetailsLoading(true)
+      try {
+        const response = await fetch(`/api/clubs/${club.$id}`, {
+          signal: controller.signal,
+          headers: { 'Cache-Control': 'no-cache' },
+        })
+
+        if (!response.ok) {
+          throw new Error('failed to load club details')
+        }
+
+        const data = await response.json()
+        if (isMounted) {
+          setDetails({
+            description: data.description || '',
+            activityIntro: data.activityIntro || '',
+          })
+        }
+      } catch (error) {
+        if (isMounted) {
+          setDetails({ description: '', activityIntro: '' })
+        }
+      } finally {
+        if (isMounted) {
+          setDetailsLoading(false)
+        }
+      }
+    }
+
+    loadDetails()
+
+    return () => {
+      isMounted = false
+      controller.abort()
+    }
+  }, [club.$id, isOpened])
+
   return (
     <Modal scrollBehavior='outside' isOpen={isOpened} onOpenChange={(isOpened) => setOpened(isOpened)}>
       <ModalContent>
@@ -49,13 +105,21 @@ export const DetailsModal = ({
                   <h2 className='text-xl font-semibold text-gray-800'>
                     关于我们
                   </h2>
-                  <div>{club.description || '什么也没有留下'}</div>
+                  <div>
+                    {detailsLoading && !details
+                      ? '加载中...'
+                      : details?.description || '什么也没有留下'}
+                  </div>
                 </div>
                 <div className='mb-4'>
                   <h2 className='text-xl font-semibold text-gray-800'>
                     活动介绍 & 计划
                   </h2>
-                  <div>{club.activityIntro || '空空如也'}</div>
+                  <div>
+                    {detailsLoading && !details
+                      ? '加载中...'
+                      : details?.activityIntro || '空空如也'}
+                  </div>
                 </div>
                 {club.contact && (
                   <div className='flex gap-2'>

@@ -11,7 +11,7 @@ export const GET = async () => {
     
     console.time('[API] supabase-query')
     
-    // 只选择必要的字段，避免获取大文本字段
+    // 只选择必要的字段
     const { data, error } = await supabase
       .from('clubs')
       .select(`

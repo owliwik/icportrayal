@@ -77,6 +77,14 @@ export const ClubPageClient = () => {
     return clubs.filter((club) => matchesCategory(club, activeCategory))
   }, [activeCategory, clubs])
 
+  const officialCount = useMemo(() => {
+    return clubs.filter((club) => club.isOfficial).length
+  }, [clubs])
+
+  const activeLabel = activeCategory
+    ? CATEGORY_LABELS.find((c) => c.value === activeCategory)?.label || ''
+    : '所有社团'
+
   const handleCategoryClick = (category: ClubCategory) => {
     setActiveCategory((prev) => prev === category ? null : category)
   }
@@ -88,27 +96,42 @@ export const ClubPageClient = () => {
 
   if (loading && clubs.length === 0) {
     return (
-      <div className="space-y-8">
-        <div className='flex flex-col md:flex-row justify-between items-start md:items-center gap-4'>
-          <div>
-            <h1 className='text-4xl font-bold text-gray-900'>社团列表</h1>
-            <p className='text-gray-600 mt-2'>探索我们学校的各种社团活动</p>
-          </div>
-          <div>
-            <Link href='/report'>
-              <Button color='primary' size='lg' className='px-8'>
-                活动打卡
-              </Button>
-            </Link>
+      <div className="space-y-10">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 p-8 text-white shadow-lg">
+          <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-white/10 blur-2xl" />
+          <div className="absolute bottom-0 left-0 h-24 w-48 rounded-tr-3xl bg-white/10" />
+          <div className='relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6'>
+            <div>
+              <h1 className='text-4xl font-semibold tracking-tight'>社团列表</h1>
+              <p className='text-slate-200 mt-2'>探索我们学校的各种社团活动</p>
+              <div className="mt-4 flex flex-wrap items-center gap-2 text-sm text-slate-200">
+                <span className="rounded-full border border-white/20 px-3 py-1">
+                  总数 {clubs.length}
+                </span>
+                <span className="rounded-full border border-white/20 px-3 py-1">
+                  正式社团 {officialCount}
+                </span>
+              </div>
+            </div>
+            <div>
+              <Link href='/report'>
+                <Button color='primary' size='lg' className='px-8 shadow-md'>
+                  活动打卡
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
         
-        <div className="min-h-[400px] flex items-center justify-center">
-          <Spinner 
-            label="加载社团数据中..." 
-            color="primary" 
-            size="lg" 
-          />
+        <div className="min-h-[360px] flex items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-white">
+          <div className="flex flex-col items-center gap-3">
+            <Spinner 
+              label="加载社团数据中..." 
+              color="primary" 
+              size="lg" 
+            />
+            <div className="text-sm text-slate-500">首次加载可能需要一点时间</div>
+          </div>
         </div>
       </div>
     )
@@ -116,8 +139,9 @@ export const ClubPageClient = () => {
 
   if (error) {
     return (
-      <div className="min-h-[400px] flex flex-col items-center justify-center space-y-4">
-        <div className="text-red-500 text-lg">
+      <div className="min-h-[360px] flex flex-col items-center justify-center space-y-4 rounded-2xl border border-rose-100 bg-rose-50/60 p-8 text-center">
+        <div className="text-3xl">⚠️</div>
+        <div className="text-rose-600 text-lg">
           加载失败: {error}
         </div>
         <Button 
@@ -134,60 +158,85 @@ export const ClubPageClient = () => {
   }
 
   return (
-    <div className="space-y-8">
-      <div className='flex flex-col md:flex-row justify-between items-start md:items-center gap-4'>
-        <div>
-          <h1 className='text-4xl font-bold text-gray-900'>社团列表</h1>
-          <p className='text-gray-600 mt-2'>探索我们学校的各种社团活动</p>
-        </div>
-        <div>
-          <Link href='/report'>
-            <Button color='primary' size='lg' className='px-8'>
-              活动打卡
-            </Button>
-          </Link>
+    <div className="space-y-10">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 p-8 text-white shadow-lg">
+        <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-white/10 blur-2xl" />
+        <div className="absolute bottom-0 left-0 h-24 w-48 rounded-tr-3xl bg-white/10" />
+        <div className='relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6'>
+          <div>
+            <h1 className='text-4xl font-semibold tracking-tight'>社团列表</h1>
+            <p className='text-slate-200 mt-2'>探索我们学校的各种社团活动</p>
+            <div className="mt-4 flex flex-wrap items-center gap-2 text-sm text-slate-200">
+              <span className="rounded-full border border-white/20 px-3 py-1">
+                总数 {clubs.length}
+              </span>
+              <span className="rounded-full border border-white/20 px-3 py-1">
+                正式社团 {officialCount}
+              </span>
+              <span className="rounded-full border border-white/20 px-3 py-1">
+                当前 {filteredClubs.length}
+              </span>
+            </div>
+          </div>
+          <div>
+            <Link href='/report'>
+              <Button color='primary' size='lg' className='px-8 shadow-md'>
+                活动打卡
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
 
-      <div className='flex flex-wrap gap-3'>
-        <Button
-          variant={!activeCategory ? 'solid' : 'bordered'}
-          color={!activeCategory ? 'primary' : 'default'}
-          onPress={() => setActiveCategory(null)}
-          className='min-w-[100px]'
-        >
-          全部社团 ({clubs.length})
-        </Button>
-        {CATEGORY_LABELS.map((category) => {
-          const isActive = activeCategory === category.value
-          const categoryCount = clubs.filter(club => 
-            matchesCategory(club, category.value)
-          ).length
-          
-          return (
-            <Button
-              key={category.value}
-              variant={isActive ? 'solid' : 'bordered'}
-              color={isActive ? 'primary' : 'default'}
-              onPress={() => handleCategoryClick(category.value)}
-              className='min-w-[100px]'
-            >
-              {category.label} ({categoryCount})
-            </Button>
-          )
-        })}
+      <div className="rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
+        <div className="flex flex-wrap gap-3">
+          <Button
+            variant={!activeCategory ? 'solid' : 'bordered'}
+            color={!activeCategory ? 'primary' : 'default'}
+            onPress={() => setActiveCategory(null)}
+            className='min-w-[110px]'
+          >
+            全部社团 ({clubs.length})
+          </Button>
+          {CATEGORY_LABELS.map((category) => {
+            const isActive = activeCategory === category.value
+            const categoryCount = clubs.filter(club => 
+              matchesCategory(club, category.value)
+            ).length
+            
+            return (
+              <Button
+                key={category.value}
+                variant={isActive ? 'solid' : 'bordered'}
+                color={isActive ? 'primary' : 'default'}
+                onPress={() => handleCategoryClick(category.value)}
+                className='min-w-[110px]'
+              >
+                {category.label} ({categoryCount})
+              </Button>
+            )
+          })}
+        </div>
       </div>
 
       <div className="bg-white rounded-2xl p-6 shadow-sm">
-        <div className="mb-6">
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
           <h2 className="text-2xl font-semibold text-gray-800">
-            {activeCategory ? 
-              `${CATEGORY_LABELS.find(c => c.value === activeCategory)?.label}社团` : 
-              '所有社团'}
+            {activeLabel} 
             <span className="text-gray-500 text-lg ml-2">
               ({filteredClubs.length}个)
             </span>
           </h2>
+          {activeCategory && (
+            <Button
+              size="sm"
+              variant="flat"
+              color="default"
+              onPress={() => setActiveCategory(null)}
+            >
+              清除筛选
+            </Button>
+          )}
         </div>
         
         {clubs.length === 0 ? (

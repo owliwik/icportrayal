@@ -18,6 +18,13 @@ export const createServerClient = (accessToken?: string) => {
       persistSession: false,
       autoRefreshToken: false,
     },
-    global: { headers },
+    global: {
+      headers,
+      fetch: (input, init) =>
+        fetch(input, {
+          ...init,
+          cache: 'no-store',
+        }),
+    },
   })
 }
