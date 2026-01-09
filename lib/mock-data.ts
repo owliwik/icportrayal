@@ -187,12 +187,12 @@ export const teamMembers: TeamMember[] = [
     image: '/default.jpg',
   },
   {
-    name: '侯飞声',
-    role: '2027级学信部部员，网站开发者',
-    image: '/engineering.jpg',
+    name: '侯飞升',
+    role: '2026级学信部部员，网站开发者',
+    image: '/hacker.jpg',
   },
   {
-    name: '烦茄子led',
+    name: '王明远',
     role: '2027级学信部部员，网站开发者',
     image: '/geography.jpg',
   },
