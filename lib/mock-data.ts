@@ -50,18 +50,16 @@ export type AlumniProfile = {
 export const newsItems: NewsItem[] = [
   {
     slug: 'club-fair-2024',
-    title: '2026 Final studyguide released!!!',
+    title: '2026 Final Study Guide Released!!!',
     date: '2026-01-08',
     summary: '祝大家期末顺利',
     content: [
-      '2026 studyguide released!!!',
-      '写完了你知道吗',
-      '加班写三天 把这个studyguide网站写完了',
+      '祝大家期末顺利~'
     ],
   },
   {
     slug: 'volunteer-week',
-    title: 'IC Portrayal Renovation Project Innital',
+    title: 'IC Portrayal Renovation Project Initial',
     date: '2026-01-08',
     summary: '网站开发中，更多功能敬请期待',
     content: [
@@ -185,22 +183,22 @@ export const teamMembers: TeamMember[] = [
   },
   {
     name: '李浩民',
-    role: '2026级学信部部长',
+    role: '2027级学信部部长',
     image: '/default.jpg',
   },
   {
-    name: '侯飞升',
-    role: '2026级学信部部员，网站开发者',
+    name: '侯飞声',
+    role: '2027级学信部部员，网站开发者',
     image: '/engineering.jpg',
   },
   {
-    name: '王明远',
-    role: '2026级学信部部员，网站开发者',
+    name: '烦茄子led',
+    role: '2027级学信部部员，网站开发者',
     image: '/geography.jpg',
   },
   {
     name: '钱曦文',
-    role: '2027级学信部部员，后端开发者',
+    role: '2028级学信部部员，后端开发者',
     image: '/geography.jpg',
   },
   

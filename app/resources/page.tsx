@@ -66,21 +66,12 @@ const resourceCategories = [
   // G11 分类 - 物理
   {
     id: 'g11-physics-c',
-    title: 'G11 物理C',
-    description: 'AP物理C力学与电磁学',
+    title: 'G11 物理',
+    description: 'AP物理C与物理2等',
     grade: 'G11',
     subject: '物理',
     icon: '⚛️',
     color: 'from-purple-400 to-purple-500'
-  },
-  {
-    id: 'g11-physics-2',
-    title: 'G11 物理2',
-    description: 'AP物理2课程资料',
-    grade: 'G11',
-    subject: '物理',
-    icon: '🌌',
-    color: 'from-violet-500 to-violet-600'
   },
   
   // G11 分类 - 化学
@@ -108,21 +99,12 @@ const resourceCategories = [
   // G11 分类 - 英语
   {
     id: 'g11-english-aplang',
-    title: 'G11 AP英语',
-    description: 'AP语言与写作课程',
+    title: 'G11 英语',
+    description: 'AP语言与写作课程、荣誉英语等',
     grade: 'G11',
     subject: '英语',
     icon: '📚',
     color: 'from-amber-400 to-amber-500'
-  },
-  {
-    id: 'g11-english-honors',
-    title: 'G11 荣誉英语',
-    description: '荣誉英语课程资料',
-    grade: 'G11',
-    subject: '英语',
-    icon: '✍️',
-    color: 'from-yellow-500 to-yellow-600'
   },
   
   // G11 分类 - 人文社科

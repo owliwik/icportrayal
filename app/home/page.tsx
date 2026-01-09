@@ -13,7 +13,7 @@ const Page = () => {
             欢迎来到 BHSFIC 学生官方网站
           </h1>
           <p className='mt-3 text-lg text-slate-500'>
-            BHSFIC Official student platform
+            BHSFIC Official Student Platform
           </p>
           <div className='mt-6 flex gap-3'>
             <Link

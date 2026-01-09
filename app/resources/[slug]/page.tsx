@@ -90,21 +90,12 @@ const RESOURCE_CATEGORIES = [
   // G11 物理
   {
     id: 'g11-physics-c',
-    title: 'G11 物理C资料',
-    description: 'G11物理C力学与电磁学AP课程学习资料',
+    title: 'G11 物理资料',
+    description: 'G11物理C与物理2AP课程学习资料',
     grade: 'G11',
     subject: '物理',
-    db_categories: ['G11 Physics C'],
+    db_categories: ['G11 Physics C', 'G11 Physics 2'],
     color: { bg: 'bg-purple-100', text: 'text-purple-800', border: 'border-purple-300', gradient: 'from-purple-400 to-purple-500' }
-  },
-  {
-    id: 'g11-physics-2',
-    title: 'G11 物理2资料',
-    description: 'G11物理2AP课程学习资料',
-    grade: 'G11',
-    subject: '物理',
-    db_categories: ['G11 Physics 2'],
-    color: { bg: 'bg-violet-100', text: 'text-violet-800', border: 'border-violet-300', gradient: 'from-violet-500 to-violet-600' }
   },
   
   // G11 化学
@@ -132,21 +123,12 @@ const RESOURCE_CATEGORIES = [
   // G11 英语
   {
     id: 'g11-english-aplang',
-    title: 'G11 AP英语资料',
-    description: 'G11 AP语言与写作课程学习资料',
+    title: 'G11 英语资料',
+    description: 'G11 AP语言与写作、荣誉英语课程学习资料',
     grade: 'G11',
     subject: '英语',
-    db_categories: ['G11 APLang'],
+    db_categories: ['G11 APLang', 'G11 Honors English'],
     color: { bg: 'bg-amber-100', text: 'text-amber-800', border: 'border-amber-300', gradient: 'from-amber-400 to-amber-500' }
-  },
-  {
-    id: 'g11-english-honors',
-    title: 'G11 荣誉英语资料',
-    description: 'G11 荣誉英语课程学习资料',
-    grade: 'G11',
-    subject: '英语',
-    db_categories: ['G11 Honors English'],
-    color: { bg: 'bg-yellow-100', text: 'text-yellow-800', border: 'border-yellow-300', gradient: 'from-yellow-500 to-yellow-600' }
   },
   
   // G11 人文社科
