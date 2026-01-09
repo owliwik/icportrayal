@@ -187,11 +187,11 @@ export const teamMembers: TeamMember[] = [
   {
     name: '李浩民',
     role: '2027级学信部部长',
-    image: '/default.jpg',
+    image: '/liamli.jpg',
   },
   {
     name: '侯飞升',
-    role: '2026级学信部部,网站开发者',
+    role: '2027级学信部部员,网站开发者',
     image: '/hacker.jpg',
   },
   {
