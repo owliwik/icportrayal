@@ -54,7 +54,10 @@ export const newsItems: NewsItem[] = [
     date: '2026-01-08',
     summary: '祝大家期末顺利',
     content: [
-      '祝大家期末顺利~'
+      '祝大家期末顺利~',
+      '感谢学信部成员的努力~',
+      '写了三天写完了这个网站',
+      '终于写完了 直接给studyguide功能先发了'
     ],
   },
   {
@@ -188,17 +191,17 @@ export const teamMembers: TeamMember[] = [
   },
   {
     name: '侯飞升',
-    role: '2026级学信部部员，网站开发者',
+    role: '2026级学信部部,网站开发者',
     image: '/hacker.jpg',
   },
   {
     name: '王明远',
-    role: '2027级学信部部员，网站开发者',
+    role: '2027级学信部部员,网站开发者',
     image: '/geography.jpg',
   },
   {
     name: '钱曦文',
-    role: '2028级学信部部员，后端开发者',
+    role: '2028级学信部部员,后端开发者',
     image: '/geography.jpg',
   },
   
