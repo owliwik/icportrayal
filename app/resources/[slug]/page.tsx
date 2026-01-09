@@ -28,8 +28,6 @@ import {
   Calculator
 } from 'lucide-react'
 
-// 更新分类配置 - 化学和生物分开
-// 在详情页中更新 RESOURCE_CATEGORIES 配置
 const RESOURCE_CATEGORIES = [
   // G10 分类
   {
@@ -78,60 +76,110 @@ const RESOURCE_CATEGORIES = [
     color: { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200', gradient: 'from-amber-500 to-amber-600' }
   },
   
-  // G11 分类
+  // G11 数学
   {
     id: 'g11-math-calc',
-    title: 'G11 微积分资料',
+    title: 'G11 数学资料',
     description: 'G11微积分BC、统计等高等数学学习资料',
     grade: 'G11',
     subject: '数学',
     db_categories: ['G11 Calculus BC', 'G11 Statistics'],
     color: { bg: 'bg-blue-100', text: 'text-blue-800', border: 'border-blue-300', gradient: 'from-blue-400 to-blue-500' }
   },
+  
+  // G11 物理
   {
-    id: 'g11-physics',
-    title: 'G11 物理资料',
-    description: 'G11物理C、物理2等AP物理课程学习资料',
+    id: 'g11-physics-c',
+    title: 'G11 物理C资料',
+    description: 'G11物理C力学与电磁学AP课程学习资料',
     grade: 'G11',
     subject: '物理',
-    db_categories: ['G11 Physics C', 'G11 Physics 2'],
+    db_categories: ['G11 Physics C'],
     color: { bg: 'bg-purple-100', text: 'text-purple-800', border: 'border-purple-300', gradient: 'from-purple-400 to-purple-500' }
   },
   {
-    id: 'g11-science',
-    title: 'G11 科学资料',
-    description: 'G11化学、生物、环境科学等AP科学课程学习资料',
+    id: 'g11-physics-2',
+    title: 'G11 物理2资料',
+    description: 'G11物理2AP课程学习资料',
     grade: 'G11',
-    subject: '科学',
-    db_categories: ['G11 Chemistry', 'G11 Biology', 'G11 APES'],
+    subject: '物理',
+    db_categories: ['G11 Physics 2'],
+    color: { bg: 'bg-violet-100', text: 'text-violet-800', border: 'border-violet-300', gradient: 'from-violet-500 to-violet-600' }
+  },
+  
+  // G11 化学
+  {
+    id: 'g11-chemistry',
+    title: 'G11 化学资料',
+    description: 'G11 AP化学课程学习资料',
+    grade: 'G11',
+    subject: '化学',
+    db_categories: ['G11 Chemistry'],
     color: { bg: 'bg-green-100', text: 'text-green-800', border: 'border-green-300', gradient: 'from-green-400 to-green-500' }
   },
+  
+  // G11 生物
   {
-    id: 'g11-english',
-    title: 'G11 英语资料',
-    description: 'G11 AP语言、荣誉英语等人文课程学习资料',
+    id: 'g11-biology',
+    title: 'G11 生物资料',
+    description: 'G11 AP生物课程学习资料',
+    grade: 'G11',
+    subject: '生物',
+    db_categories: ['G11 Biology'],
+    color: { bg: 'bg-emerald-100', text: 'text-emerald-800', border: 'border-emerald-300', gradient: 'from-emerald-400 to-emerald-500' }
+  },
+  
+  // G11 英语
+  {
+    id: 'g11-english-aplang',
+    title: 'G11 AP英语资料',
+    description: 'G11 AP语言与写作课程学习资料',
     grade: 'G11',
     subject: '英语',
-    db_categories: ['G11 APLang', 'G11 Honors English'],
+    db_categories: ['G11 APLang'],
     color: { bg: 'bg-amber-100', text: 'text-amber-800', border: 'border-amber-300', gradient: 'from-amber-400 to-amber-500' }
   },
   {
+    id: 'g11-english-honors',
+    title: 'G11 荣誉英语资料',
+    description: 'G11 荣誉英语课程学习资料',
+    grade: 'G11',
+    subject: '英语',
+    db_categories: ['G11 Honors English'],
+    color: { bg: 'bg-yellow-100', text: 'text-yellow-800', border: 'border-yellow-300', gradient: 'from-yellow-500 to-yellow-600' }
+  },
+  
+  // G11 人文社科
+  {
     id: 'g11-humanities',
     title: 'G11 人文社科资料',
-    description: 'G11 AP历史、地理、心理学等社科课程学习资料',
+    description: 'G11 AP历史、地理、心理学、经济学等社科课程学习资料',
     grade: 'G11',
     subject: '人文社科',
     db_categories: ['G11 HG', 'G11 APUSH', 'G11 Micro', 'G11 Psyco'],
     color: { bg: 'bg-red-50', text: 'text-red-700', border: 'border-red-200', gradient: 'from-red-500 to-red-600' }
   },
+  
+  // G11 计算机科学
+  {
+    id: 'g11-computer-science',
+    title: 'G11 计算机科学资料',
+    description: 'G11 AP计算机科学原理课程学习资料',
+    grade: 'G11',
+    subject: '计算机科学',
+    db_categories: ['APCSP'],
+    color: { bg: 'bg-indigo-50', text: 'text-indigo-700', border: 'border-indigo-200', gradient: 'from-indigo-500 to-indigo-600' }
+  },
+  
+  // 其他
   {
     id: 'g11-other',
     title: 'G11 其他课程资料',
-    description: 'G11音乐理论、计算机科学等其他学科学习资料',
+    description: 'G11音乐理论、环境科学等其他学科学习资料',
     grade: 'G11',
     subject: '其他',
-    db_categories: ['G11 Music Theory', 'APCSP'],
-    color: { bg: 'bg-indigo-50', text: 'text-indigo-700', border: 'border-indigo-200', gradient: 'from-indigo-500 to-indigo-600' }
+    db_categories: ['G11 Music Theory', 'G11 APES'],
+    color: { bg: 'bg-gray-50', text: 'text-gray-700', border: 'border-gray-200', gradient: 'from-gray-500 to-gray-600' }
   }
 ]
 
@@ -143,10 +191,10 @@ const getCategoryIcon = (subject: string) => {
     case '化学': return BeakerIcon
     case '生物': return DnaIcon
     case '英语': return BookTextIcon
-    case '科学': return BeakerIcon
-    case '人文社科': return GlobeIcon  // 需要导入
-    case '其他': return MusicIcon      // 需要导入
-    default: return CalculatorIcon
+    case '人文社科': return GlobeIcon
+    case '计算机科学': return CpuIcon
+    case '其他': return MusicIcon
+    default: return BookTextIcon
   }
 }
 
@@ -158,9 +206,9 @@ const getCategoryColor = (subject: string) => {
     case '化学': return { bg: 'bg-green-50', text: 'text-green-700', border: 'border-green-200' }
     case '生物': return { bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-200' }
     case '英语': return { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200' }
-    case '科学': return { bg: 'bg-teal-50', text: 'text-teal-700', border: 'border-teal-200' }
     case '人文社科': return { bg: 'bg-red-50', text: 'text-red-700', border: 'border-red-200' }
-    case '其他': return { bg: 'bg-indigo-50', text: 'text-indigo-700', border: 'border-indigo-200' }
+    case '计算机科学': return { bg: 'bg-indigo-50', text: 'text-indigo-700', border: 'border-indigo-200' }
+    case '其他': return { bg: 'bg-gray-50', text: 'text-gray-700', border: 'border-gray-200' }
     default: return { bg: 'bg-slate-50', text: 'text-slate-700', border: 'border-slate-200' }
   }
 }
