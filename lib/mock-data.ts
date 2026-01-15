@@ -197,12 +197,12 @@ export const teamMembers: TeamMember[] = [
   {
     name: '王明远',
     role: '2027级学信部部员,网站开发者',
-    image: '/default.jpg',
+    image: '/led.png',
   },
   {
     name: '钱曦文',
     role: '2028级学信部部员,后端开发者',
-    image: '/hacker.jpg',
+    image: '/default.jpg',
   },
   
 ]
