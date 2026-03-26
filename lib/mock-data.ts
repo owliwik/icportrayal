@@ -231,71 +231,153 @@ export const alumniProfiles: AlumniProfile[] = [
 // lib/mock-data.ts
 
 // 学生会部门数据 - 使用本地图片路径
+// lib/mock-data.ts
+
 export const departmentItems = [
   {
     id: 1,
-    name: '文艺部',
-    slug: 'arts',
-    description: '负责校园文化艺术活动的策划与组织，包括文艺晚会、艺术展览、校园歌手大赛等。我们致力于丰富同学们的课余生活，营造浓厚的校园艺术氛围。',
-    description_en: 'Responsible for planning and organizing campus cultural and artistic activities, including art evenings, art exhibitions, campus singer competitions, etc. We are committed to enriching students\' extracurricular life and creating a vibrant artistic atmosphere on campus.',
-    summary: '策划组织校园文艺活动，丰富校园文化生活',
-    summary_en: 'Plan and organize campus cultural activities, enrich campus cultural life',
-    imageUrl: '/images/departments/文艺部.jpg',
-    color: 'bg-pink-100'
+    name: '生活部',
+    name_en: 'Life Affairs Department',
+    slug: 'life',
+    role: '生活部主要负责校园生活事务的沟通与协调，是学生与学校之间的重要联系窗口。',
+    description: '部门通过收集同学在校园生活中的反馈与需求，与学校进行沟通并推动问题解决，同时参与校园生活相关项目与活动的组织，致力于持续改善同学们的校园生活体验。',
+    description_en: 'The department collects feedback and needs from students regarding campus life, communicates with the school to facilitate problem-solving, and participates in organizing campus life-related projects and activities, committed to continuously improving students\' campus life experience.',
+    summary: '通过持续回应同学的实际需求，生活部让学生的声音能够被听见，并推动学生在校园事务中的参与与表达。',
+    summary_en: 'By continuously responding to students\' actual needs, the Life Affairs Department ensures that students\' voices are heard and promotes student participation and expression in campus affairs.',
+    responsibilities: [
+      '收集并整理同学在校园生活中的意见与需求',
+      '与学校沟通并推动校园生活问题解决',
+      '协助推进校园生活相关项目与活动',
+      '维护与优化校园生活服务设施'
+    ],
+    responsibilities_en: [
+      'Collect and organize student opinions and needs regarding campus life',
+      'Communicate with the school to facilitate resolution of campus life issues',
+      'Assist in promoting campus life-related projects and activities',
+      'Maintain and optimize campus life service facilities'
+    ],
+    imageUrl: '/images/departments/生活部.jpg',
+    color: 'bg-green-100'
   },
   {
     id: 2,
     name: '学信部',
+    name_en: 'Academic & Information Department',
     slug: 'academic',
-    description: '负责学术竞赛、学习方法分享、学习资源整合等工作。定期举办学术讲座、学习经验交流会，帮助同学们提高学习效率，拓展学术视野。',
-    description_en: 'Responsible for academic competitions, study method sharing, and learning resource integration. Regularly organize academic lectures and study experience exchange meetings to help students improve learning efficiency and expand academic horizons.',
-    summary: '整合学习资源，搭建学术交流平台',
-    summary_en: 'Integrate learning resources, build academic exchange platforms',
+    role: '学信部主要负责IC的学术项目与信息平台建设，通过组织学习类项目与活动，为同学们的课内外学习提供支持。',
+    description: '同时，部门负责学生会的信息平台建设与技术支持，包括IC Portrayal等数字平台的运营与维护。',
+    description_en: 'Additionally, the department is responsible for building the student union\'s information platforms and providing technical support, including the operation and maintenance of digital platforms such as IC Portrayal.',
+    summary: '通过推动学术交流与信息平台建设，学信部提升校园的信息透明度与资源整合能力，并通过数字化工具支持学生会运作，使各类资源能够更广泛地服务IC community。',
+    summary_en: 'By promoting academic exchange and information platform development, the Academic & Information Department enhances campus information transparency and resource integration capabilities, supporting student union operations through digital tools and enabling various resources to serve the IC community more broadly.',
+    responsibilities: [
+      '组织学术类活动与相关项目',
+      '为同学提供学术资源与学习支持',
+      '维护与更新IC Portrayal等信息平台',
+      '为学生会的内部管理与外部运营提供技术支持'
+    ],
+    responsibilities_en: [
+      'Organize academic activities and related projects',
+      'Provide academic resources and learning support to students',
+      'Maintain and update information platforms such as IC Portrayal',
+      'Provide technical support for student union internal management and external operations'
+    ],
     imageUrl: '/images/departments/学信部.jpg',
     color: 'bg-blue-100'
   },
   {
     id: 3,
-    name: '生活部',
-    slug: 'life',
-    description: '关注同学们的日常生活需求，负责校园生活服务、权益维护、生活建议收集等工作。定期开展生活技能培训，营造温馨和谐的校园生活环境。',
-    description_en: 'Focus on students\' daily needs, responsible for campus life services, rights protection, and collecting life suggestions. Regularly conduct life skills training to create a warm and harmonious campus living environment.',
-    summary: '关注生活需求，维护学生权益',
-    summary_en: 'Focus on life needs, protect student rights',
-    imageUrl: '/images/departments/生活部.jpg',
-    color: 'bg-green-100'
+    name: '文艺部',
+    name_en: 'Activity Department',
+    slug: 'arts',
+    role: '文艺部负责策划与组织IC的大型文艺活动，通过音乐、舞会与主题活动丰富校园文化生活，为同学们提供展示创意与才华的平台。',
+    description: '同时营造具有特色的校园文化氛围。',
+    description_en: 'At the same time, it creates a distinctive campus cultural atmosphere.',
+    summary: '通过组织具有仪式感与参与感的校园活动，文艺部为IC community创造共同的校园记忆，并强化同学们对校园文化与社区身份的认同。',
+    summary_en: 'By organizing campus activities with a sense of ceremony and participation, the Activity Department creates shared campus memories for the IC community and strengthens students\' identification with campus culture and community identity.',
+    responsibilities: [
+      '组织校园大型活动',
+      '策划并开展主题活动与校园文化项目',
+      '推动校园文化氛围建设'
+    ],
+    responsibilities_en: [
+      'Organize large-scale campus events',
+      'Plan and implement themed activities and campus culture projects',
+      'Promote the development of campus cultural atmosphere'
+    ],
+    imageUrl: '/images/departments/文艺部.jpg',
+    color: 'bg-pink-100'
   },
   {
     id: 4,
     name: '体育部',
+    name_en: 'Sports Department',
     slug: 'sports',
-    description: '组织各类体育赛事和健身活动，包括篮球赛、足球赛、趣味运动会等。推广健康生活方式，增强同学们的身体素质，培养团队合作精神。',
-    description_en: 'Organize various sports events and fitness activities, including basketball games, football matches, fun sports meets, etc. Promote healthy lifestyles, enhance students\' physical fitness, and cultivate team spirit.',
-    summary: '组织体育活动，倡导健康生活',
-    summary_en: 'Organize sports activities, promote healthy living',
+    role: '体育部负责统筹校园体育赛事与体育活动，通过组织校内比赛与体育项目，鼓励同学们积极参与体育运动，促进校园体育文化的发展。',
+    description: '',
+    description_en: '',
+    summary: '通过体育赛事与日常运动活动，体育部增强同学之间的连接与团队精神，使运动成为IC community活跃与凝聚的重要方式。',
+    summary_en: 'Through sports events and daily physical activities, the Sports Department enhances connections and team spirit among students, making sports an important way to keep the IC community active and united.',
+    responsibilities: [
+      '组织校内体育赛事与传统体育活动',
+      '协调体育社团与校园体育资源',
+      '推动常态化体育活动开展',
+      '促进跨校体育交流'
+    ],
+    responsibilities_en: [
+      'Organize intramural sports competitions and traditional sports events',
+      'Coordinate sports clubs and campus sports resources',
+      'Promote regular sports activities',
+      'Facilitate inter-school sports exchanges'
+    ],
     imageUrl: '/images/departments/体育部.jpg',
     color: 'bg-orange-100'
   },
   {
     id: 5,
-    name: '外联部',
-    slug: 'public-relations',
-    description: '负责校际交流、校企合作、活动赞助等工作。拓展校外资源，加强与其他学校的联系，为学生会活动提供支持和保障。',
-    description_en: 'Responsible for inter-school exchanges, school-enterprise cooperation, and活动 sponsorship. Expand off-campus resources, strengthen connections with other schools, and provide support and guarantee for Student Union activities.',
-    summary: '拓展校外资源，加强校际交流',
-    summary_en: 'Expand off-campus resources, strengthen inter-school exchanges',
-    imageUrl: '/images/departments/外联部.jpg',
-    color: 'bg-purple-100'
+    name: '设计部',
+    name_en: 'Design Department',
+    slug: 'design',
+    role: '设计部主要负责IC的视觉内容创作与校园视觉文化建设。部门为学生会及校内组织提供视觉设计支持，并通过艺术展览与创意项目提升校园公共空间的文化氛围。',
+    description: '',
+    description_en: '',
+    summary: '通过视觉创作与公共艺术项目，设计部塑造校园空间的文化表达，并提升同学们的审美意识与美育体验，让创意与艺术成为IC校园环境的重要组成部分。',
+    summary_en: 'Through visual creation and public art projects, the Design Department shapes the cultural expression of campus spaces, enhances students\' aesthetic awareness and arts education experience, making creativity and art an important part of the IC campus environment.',
+    responsibilities: [
+      '为学生会与校园活动提供视觉设计支持',
+      '组织校园艺术项目与创意活动',
+      '推动校园视觉文化与公共艺术建设'
+    ],
+    responsibilities_en: [
+      'Provide visual design support for student union and campus activities',
+      'Organize campus art projects and creative activities',
+      'Promote campus visual culture and public art development'
+    ],
+    imageUrl: '/images/departments/设计部.jpg',
+    color: 'bg-yellow-100'
   },
   {
     id: 6,
-    name: '设计部',
-    slug: 'design',
-    description: '负责学生会各类活动的视觉设计，包括海报、宣传品、周边产品等。用创意和设计语言传达活动信息，提升学生会活动的视觉影响力。',
-    description_en: 'Responsible for visual design of various Student Union activities, including posters, promotional materials, merchandise, etc. Convey activity information through creativity and design language, enhancing the visual impact of Student Union activities.',
-    summary: '创意视觉设计，提升活动影响力',
-    summary_en: 'Creative visual design, enhance activity impact',
-    imageUrl: '/images/departments/设计部.jpg',
-    color: 'bg-yellow-100'
+    name: '外联部',
+    name_en: 'External Relations Department',
+    slug: 'public-relations',
+    role: '外联部负责学生会的对外合作与交流，推动IC与其他学校及组织之间的联系。通过组织跨校活动与合作项目，外联部为同学们提供更多交流机会，并在对外展示IC校园文化方面发挥重要作用。',
+    description: '',
+    description_en: '',
+    summary: '通过建立跨校与社会连接，外联部拓展IC community的外部交流空间，并促进校园文化的传播与展示。',
+    summary_en: 'By establishing inter-school and social connections, the External Relations Department expands the external communication space for the IC community and promotes the dissemination and display of campus culture.',
+    responsibilities: [
+      '组织与协调跨校交流活动',
+      '协助各部门开展跨校合作项目',
+      '负责学生会文创产品的制作与推广',
+      '推动IC校园文化的对外传播与展示'
+    ],
+    responsibilities_en: [
+      'Organize and coordinate inter-school exchange activities',
+      'Assist various departments in implementing inter-school collaboration projects',
+      'Responsible for the production and promotion of student union cultural products',
+      'Promote the external dissemination and display of IC campus culture'
+    ],
+    imageUrl: '/images/departments/外联部.jpg',
+    color: 'bg-purple-100'
   }
 ];

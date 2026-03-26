@@ -1,81 +1,88 @@
 "use client";
 
-import Image from "next/image";
-import { Button } from "@nextui-org/button";
 import {
   Modal,
-  ModalBody,
   ModalContent,
-  ModalFooter,
   ModalHeader,
+  ModalBody,
+  ModalFooter,
 } from "@nextui-org/modal";
-import { ArtworkItem } from "@/lib/mock-data";
+import { Button } from "@nextui-org/button";
+import { Artwork } from "@/lib/types/artwork";
+import Image from "next/image";
+import { useState } from "react";
 
 export const ArtworkDetailsModal = ({
   artwork,
   isOpened,
   setOpened,
 }: {
-  artwork: ArtworkItem;
+  artwork: Artwork;
   isOpened: boolean;
   setOpened: (isOpened: boolean) => void;
 }) => {
+  const [imageError, setImageError] = useState(false);
+  const imageUrl = artwork.link || '/default-artwork.jpg';
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
+  };
+
   return (
-    <Modal
-      isOpen={isOpened}
-      onOpenChange={(nextOpen) => setOpened(nextOpen)}
-      scrollBehavior="outside"
-      size="3xl"
-    >
+    <Modal scrollBehavior='outside' isOpen={isOpened} onOpenChange={(isOpened) => setOpened(isOpened)}>
       <ModalContent>
         {(onClose) => (
           <div>
-            <ModalHeader className="flex-col">
-              <div className="text-2xl">{artwork.title}</div>
-              <div className="text-base font-normal text-gray-500">
-                {artwork.author}
+            <ModalHeader className='text-2xl flex-col'>
+              <div>{artwork.title}</div>
+              <div className='text-base font-normal text-gray-500'>
+                {artwork.name}
               </div>
             </ModalHeader>
             <ModalBody>
-              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-slate-100">
-                <Image
-                  alt={artwork.title}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 900px"
-                  src={artwork.image}
-                />
+              <div className="relative h-96 w-full rounded-lg overflow-hidden bg-gray-100 mb-4">
+                {!imageError ? (
+                  <Image
+                    src={imageUrl}
+                    alt={artwork.title}
+                    fill
+                    className="object-contain"
+                    onError={() => setImageError(true)}
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-6xl text-gray-400">
+                      {artwork.title.charAt(0)}
+                    </div>
+                  </div>
+                )}
               </div>
-
-              <div className="grid gap-4 rounded-2xl bg-slate-50 p-5 md:grid-cols-3">
+              
+              <div className="space-y-3">
                 <div>
-                  <div className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                    Title
-                  </div>
-                  <div className="mt-1 text-sm font-medium text-slate-900">
-                    {artwork.title}
+                  <h3 className="text-sm font-medium text-gray-500">作品信息</h3>
+                  <div className="mt-1">
+                    <span className="inline-block px-2 py-1 bg-amber-50 text-amber-700 rounded text-sm">
+                      {artwork.category || '未分类'}
+                    </span>
                   </div>
                 </div>
+                
                 <div>
-                  <div className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                    Author
-                  </div>
-                  <div className="mt-1 text-sm font-medium text-slate-900">
-                    {artwork.author}
-                  </div>
+                  <h3 className="text-sm font-medium text-gray-500">创作者</h3>
+                  <p className="text-gray-900 mt-1">{artwork.name}</p>
                 </div>
+                
                 <div>
-                  <div className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                    Date
-                  </div>
-                  <div className="mt-1 text-sm font-medium text-slate-900">
-                    {artwork.date}
-                  </div>
+                  <h3 className="text-sm font-medium text-gray-500">创建日期</h3>
+                  <p className="text-gray-900 mt-1">{formatDate(artwork.created_at)}</p>
                 </div>
               </div>
             </ModalBody>
+
             <ModalFooter>
-              <Button color="default" variant="flat" onPress={onClose}>
+              <Button color='danger' variant='flat' onPress={onClose}>
                 关闭
               </Button>
             </ModalFooter>

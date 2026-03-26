@@ -4,12 +4,15 @@ import { KeyboardEvent, useState } from "react";
 import Image from "next/image";
 import { Button } from "@nextui-org/button";
 import { cn } from "@nextui-org/theme";
-import { ArtworkItem } from "@/lib/mock-data";
+import { Artwork } from "@/lib/types/artwork";
 import { ArtworkDetailsModal } from "./ArtworkDetailsModal";
 
-export const ArtworkCard = (artwork: ArtworkItem) => {
+export const ArtworkCard = (artwork: Artwork) => {
   const [modalOpened, setModalOpened] = useState(false);
   const [imageError, setImageError] = useState(false);
+  
+  // 使用 link 字段作为图片 URL，如果没有则使用默认图片
+  const imageUrl = artwork.link || '/default-artwork.jpg';
 
   const openModal = () => setModalOpened(true);
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
@@ -19,10 +22,22 @@ export const ArtworkCard = (artwork: ArtworkItem) => {
     }
   };
 
+  const formatDate = (dateString: string) => {
+    if (!dateString) return '日期未知';
+    const date = new Date(dateString);
+    return `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
+  };
+
+  // 安全获取首字母
+  const getFirstChar = (str: string | null | undefined) => {
+    if (!str) return '?';
+    return str.charAt(0);
+  };
+
   return (
     <>
       <div
-        aria-label={`查看作品 ${artwork.title}`}
+        aria-label={`查看作品 ${artwork.title || '无标题'}`}
         className={cn(
           "group overflow-hidden rounded-xl border border-gray-200 bg-white transition-all",
           "hover:cursor-pointer hover:border-amber-300 hover:shadow-lg hover:-translate-y-1",
@@ -36,17 +51,17 @@ export const ArtworkCard = (artwork: ArtworkItem) => {
         <div className="relative h-64 overflow-hidden bg-slate-100">
           {!imageError ? (
             <Image
-              alt={artwork.title}
+              alt={artwork.title || '艺术作品'}
               fill
               className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
               onError={() => setImageError(true)}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-              src={artwork.image}
+              src={imageUrl}
             />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-stone-200 to-stone-100">
               <div className="text-5xl font-semibold text-stone-400">
-                {artwork.title.charAt(0)}
+                {getFirstChar(artwork.title)}
               </div>
             </div>
           )}
@@ -54,19 +69,19 @@ export const ArtworkCard = (artwork: ArtworkItem) => {
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
             <div className="text-lg font-semibold line-clamp-1">
-              {artwork.title}
+              {artwork.title || '无标题'}
             </div>
             <div className="mt-1 text-sm text-slate-200 line-clamp-1">
-              {artwork.author}
+              {artwork.name || '未知作者'} • {artwork.category || '未分类'}
             </div>
           </div>
         </div>
 
         <div className="flex items-center justify-between gap-4 p-4">
           <div className="min-w-0">
-            <div className="text-sm text-slate-500">Archive Date</div>
+            <div className="text-sm text-slate-500">创建日期</div>
             <div className="mt-1 text-sm font-medium text-slate-900">
-              {artwork.date}
+              {formatDate(artwork.created_at)}
             </div>
           </div>
 

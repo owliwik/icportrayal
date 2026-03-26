@@ -52,6 +52,51 @@ const Page = () => {
         </div>
       </section>
 
+      {/* 我们的使命 Section */}
+      <section className='max-w-6xl mx-auto px-6 pb-16'>
+        <div className='flex items-center justify-between mb-6'>
+          <h2 className='text-2xl font-semibold text-slate-900'>我们的使命</h2>
+          <span className='text-sm text-slate-400'>
+            Our Mission
+          </span>
+        </div>
+        
+        <div className='rounded-2xl bg-white border border-slate-100 p-8 shadow-sm'>
+          <div className='prose prose-slate max-w-none'>
+            <p className='text-lg text-slate-700 leading-relaxed mb-4'>
+              <span className='block mb-2'>北京四中国际校区学生会致力于通过学生自治推动校园的持续发展。我们关注同学需求，连接想法与行动，让更多学生参与到校园建设之中。</span>
+              <span className='block text-base text-slate-500 mt-1'>The BHSFIC Student Union is committed to promoting the continuous development of the campus through student self-governance. We focus on student needs, connect ideas with action, and encourage more students to participate in campus development.</span>
+            </p>
+            <div className='mt-4 space-y-2'>
+              <div className='flex gap-3 items-start'>
+                <span className='text-primary-500 font-bold'>1.</span>
+                <div>
+                  <p className='font-medium text-slate-800'>推动校园改进</p>
+                  <p className='text-sm text-slate-600'>倾听学生声音，提出改善校园生活的建议与政策。</p>
+                  <p className='text-xs text-slate-500 mt-1'>Listen to student voices and propose suggestions and policies to improve campus life.</p>
+                </div>
+              </div>
+              <div className='flex gap-3 items-start'>
+                <span className='text-primary-500 font-bold'>2.</span>
+                <div>
+                  <p className='font-medium text-slate-800'>组织校园活动</p>
+                  <p className='text-sm text-slate-600'>策划并支持面向全校的校园活动，丰富同学们的校园生活。</p>
+                  <p className='text-xs text-slate-500 mt-1'>Plan and support campus-wide activities to enrich students' campus life.</p>
+                </div>
+              </div>
+              <div className='flex gap-3 items-start'>
+                <span className='text-primary-500 font-bold'>3.</span>
+                <div>
+                  <p className='font-medium text-slate-800'>连接校园与社会</p>
+                  <p className='text-sm text-slate-600'>与金融街、西城区及北京各类社区和机构建立交流与合作，为更广阔的社会环境贡献学生力量。</p>
+                  <p className='text-xs text-slate-500 mt-1'>Establish exchanges and cooperation with various communities and institutions in Beijing, contributing student power to the broader social environment.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 组织架构 Section */}
       <section className='max-w-6xl mx-auto px-6 pb-16'>
         <div className='flex items-center justify-between mb-6'>
@@ -95,7 +140,7 @@ const Page = () => {
         </div>
       </section>
 
-      {/* 各部门介绍 Section (原有的) */}
+      {/* 各部门介绍 Section - 包含职责列表 */}
       <section className='max-w-6xl mx-auto px-6 pb-16'>
         <div className='flex items-center justify-between mb-6'>
           <h2 className='text-2xl font-semibold text-slate-900'>学生会部门</h2>
@@ -108,9 +153,9 @@ const Page = () => {
           {departmentItems.map((dept) => (
             <div
               key={dept.id}
-              className='rounded-2xl bg-white border border-slate-100 p-6 shadow-sm'
+              className='rounded-2xl bg-white border border-slate-100 p-6 shadow-sm hover:shadow-md transition-shadow'
             >
-              <div className='flex flex-col md:flex-row gap-6'>
+              <div className='flex flex-col lg:flex-row gap-6'>
                 {/* 左侧图片空间 */}
                 <div className='flex-shrink-0'>
                   <div className={`w-32 h-32 md:w-40 md:h-40 rounded-2xl overflow-hidden ${dept.color} flex items-center justify-center`}>
@@ -130,21 +175,53 @@ const Page = () => {
                   </div>
                 </div>
                 
-                {/* 右侧文字简介 */}
-                <div className='flex-1 flex flex-col justify-center'>
-                  <div className='flex items-center gap-3 mb-2'>
+                {/* 右侧内容区域 */}
+                <div className='flex-1'>
+                  {/* 部门名称和英文名 */}
+                  <div className='mb-3'>
                     <h3 className='text-xl font-semibold text-slate-900'>
                       {dept.name}
                     </h3>
+                    {dept.name_en && (
+                      <p className='text-sm text-slate-500'>{dept.name_en}</p>
+                    )}
                   </div>
-                  <p className='text-sm text-slate-500 mb-3'>
-                    <span className='block'>{dept.summary}</span>
-                    <span className='block text-xs text-slate-400 mt-1'>{dept.summary_en || dept.summary}</span>
+                  
+                  {/* 角色定位 */}
+                  {dept.role && (
+                    <p className='text-base text-slate-700 leading-relaxed mb-3'>
+                      <span className='font-medium'>角色定位：</span>
+                      {dept.role}
+                    </p>
+                  )}
+                  
+                  {/* 对社区的意义 */}
+                  <p className='text-sm text-slate-600 bg-slate-50 p-3 rounded-lg mb-3'>
+                    <span className='font-medium text-slate-700'>✨ 对社区的意义：</span>
+                    {dept.summary}
                   </p>
-                  <p className='text-base text-slate-700 leading-relaxed'>
-                    <span className='block mb-2'>{dept.description}</span>
-                    <span className='block text-sm text-slate-500'>{dept.description_en || dept.description}</span>
-                  </p>
+                  
+                  {/* 职责列表 */}
+                  {dept.responsibilities && dept.responsibilities.length > 0 && (
+                    <div className='mb-3'>
+                      <p className='text-sm font-semibold text-slate-800 mb-2'>📋 主要职责：</p>
+                      <ul className='space-y-1'>
+                        {dept.responsibilities.map((responsibility, idx) => (
+                          <li key={idx} className='text-sm text-slate-600 flex items-start gap-2'>
+                            <span className='text-primary-500 mt-0.5'>•</span>
+                            <span>{responsibility}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  
+                  {/* 详细描述（可选） */}
+                  {dept.description && (
+                    <p className='text-sm text-slate-500 mt-2 pt-2 border-t border-slate-100'>
+                      {dept.description}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -198,18 +275,26 @@ const Page = () => {
               </h3>
               <p className='text-sm text-slate-600'>
                 <span className='block mb-1'>通过意见箱、公众号等渠道提出建议，参与校园建设，共同创造更好的学习生活环境。</span>
-                <span className='block text-xs text-slate-500 mt-1'>Make suggestions through suggestion boxes, official accounts, and other channels, participate in campus development, and共同创造 a better learning and living environment.</span>
+                <span className='block text-xs text-slate-500 mt-1'>Make suggestions through suggestion boxes, official accounts, and other channels, participate in campus development, and work together to create a better learning and living environment.</span>
               </p>
             </div>
           </div>
           
-          {/* 预留文字空间的提示 */}
-          <div className='mt-6 p-4 bg-blue-50 rounded-lg border border-blue-100 text-blue-700 text-sm'>
-            <div className='font-medium mb-1'>预留文字空间 | Reserved Space</div>
-            <div className='text-blue-600'>这里可以添加详细的参与指南、招新时间表、报名方式、联系方式等信息。</div>
-            <div className='text-blue-600 mt-1'>Detailed participation guidelines, recruitment schedule, registration methods, contact information, etc., can be added here.</div>
+          {/* 行动按钮 */}
+          <div className='mt-8 flex flex-wrap gap-4 justify-center'>
+            <a
+              href='/join'
+              className='px-6 py-3 bg-primary-500 text-white rounded-full font-medium hover:bg-primary-600 transition-colors'
+            >
+              立即报名加入 | Join Now
+            </a>
+            <a
+              href='/activities'
+              className='px-6 py-3 border border-slate-200 text-slate-600 rounded-full font-medium hover:border-primary-200 hover:text-primary-600 transition-colors'
+            >
+              浏览近期活动 | Browse Activities
+            </a>
           </div>
-          
         </div>
       </section>
     </div>
