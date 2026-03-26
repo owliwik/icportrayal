@@ -1,45 +1,50 @@
+// lib/types/activity.ts
+
 export type ActivityCategory = 'Sports' | 'Arts'
 
 export interface Activity {
-  $id: string
-  title: string
-  description: string
+  id: number
+  created_at: string
   category: ActivityCategory
-  location: string
+  link: string | null
+  department: string
   date: string
-  createdAt: string
-  imageUrl?: string
-  downloadUrl?: string  
-  organizer?: string
-  participants?: number
+  name: string
+  description: string
 }
 
+// 部门选项
+export const DEPARTMENT_OPTIONS = [
+  '文艺部',
+  '学信部',
+  '生活部',
+  '体育部',
+  '外联部',
+  '设计部'
+] as const
+
+export type Department = typeof DEPARTMENT_OPTIONS[number]
+
+// 模拟数据（用于开发测试）
 export const mockActivities: Activity[] = [
   {
-    $id: '1',
-    title: '篮球友谊赛',
-    description: '精彩的篮球友谊赛，展现团队精神',
+    id: 1,
+    created_at: new Date().toISOString(),
     category: 'Sports',
-    location: '体育馆',
-    date: '2024-03-20',
-    createdAt: '2024-03-01',
-    imageUrl: '/images/activities/basketball.jpg',
-    downloadUrl: '/downloads/basketball-photos.zip',
-    organizer: '体育部',
-    participants: 30
+    link: '/downloads/basketball-photos.zip',
+    department: '体育部',
+    date: new Date().toISOString().split('T')[0],
+    name: '篮球友谊赛',
+    description: '精彩的篮球友谊赛，展现团队精神'
   },
   {
-    $id: '2',
-    title: '校园艺术展',
-    description: '展示学生艺术作品，感受艺术魅力',
+    id: 2,
+    created_at: new Date().toISOString(),
     category: 'Arts',
-    location: '艺术中心',
-    date: '2024-03-25',
-    createdAt: '2024-03-05',
-    imageUrl: '/images/activities/art-exhibition.jpg',
-    downloadUrl: '/downloads/art-photos.zip',
-    organizer: '文艺部',
-    participants: 45
-  },
-  // ... 更多活动
+    link: '/downloads/art-photos.zip',
+    department: '文艺部',
+    date: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    name: '校园艺术展',
+    description: '展示学生艺术作品，感受艺术魅力'
+  }
 ]
