@@ -13,6 +13,7 @@
 		"@hookform/resolvers": "^3.9.0",
 		"@iconify/react": "^5.0.2",
 		"@internationalized/date": "3.6.0",
+		"@next/swc-darwin-arm64": "^14.2.4",
 		"@nextui-org/button": "2.0.37",
 		"@nextui-org/code": "2.0.32",
 		"@nextui-org/date-picker": "^2.1.6",

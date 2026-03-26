@@ -182,7 +182,7 @@ export const teamMembers: TeamMember[] = [
   {
     name: '李为有',
     role: '网站创始人',
-    image: '/humanities.jpg',
+    image: '/weiyou.jpg',
   },
   {
     name: '李浩民',
@@ -197,7 +197,7 @@ export const teamMembers: TeamMember[] = [
   {
     name: '王明远',
     role: '2027级学信部部员,网站开发者',
-    image: '/led.png',
+    image: '/default.jpg',
   },
   {
     name: '钱曦文',
