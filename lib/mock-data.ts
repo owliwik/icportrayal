@@ -181,12 +181,12 @@ export const artworks: ArtworkItem[] = [
 export const teamMembers: TeamMember[] = [
   {
     name: '李为有',
-    role: '网站创始人',
+    role: '网站创始人(无私奉献中)',
     image: '/weiyou.jpg',
   },
   {
     name: '李浩民',
-    role: '2027级学信部部长',
+    role: '2027级学信部长(压榨员工中)',
     image: '/liamli.jpg',
   },
   {
@@ -202,9 +202,23 @@ export const teamMembers: TeamMember[] = [
   {
     name: '钱曦文',
     role: '2028级学信部部员,后端开发者',
-    image: '/default.jpg',
+    image: '/hacker.jpg',
   },
-  
+  {
+    name: 'Codex',
+    role: '最强内置AI',
+    image: '/codex.jpg',
+  },
+  {
+    name: 'deepseek',
+    role: '最强外置AI',
+    image: '/kai.jpg',
+  },
+  {
+    name: 'Cursor',
+    role: '最强IDE',
+    image: '/kai.jpg',
+  },
 ]
 
 export const alumniProfiles: AlumniProfile[] = [
