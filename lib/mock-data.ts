@@ -212,12 +212,12 @@ export const teamMembers: TeamMember[] = [
   {
     name: 'deepseek',
     role: '最强外置AI',
-    image: '/kai.jpg',
+    image: '/deepseek.jpg',
   },
   {
     name: 'Cursor',
     role: '最强IDE',
-    image: '/kai.jpg',
+    image: '/cursor.jpg',
   },
 ]
 
