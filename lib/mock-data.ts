@@ -202,7 +202,7 @@ export const teamMembers: TeamMember[] = [
   {
     name: '钱曦文',
     role: '2028级学信部部员,后端开发者',
-    image: '/hacker.jpg',
+    image: '/led3.jpg',
   },
   {
     name: 'Codex',
