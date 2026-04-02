@@ -9,8 +9,8 @@ import {
 } from "@nextui-org/modal";
 import { Button } from "@nextui-org/button";
 import { Artwork } from "@/lib/types/artwork";
-import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase/client";
 
 export const ArtworkDetailsModal = ({
   artwork,
@@ -22,11 +22,67 @@ export const ArtworkDetailsModal = ({
   setOpened: (isOpened: boolean) => void;
 }) => {
   const [imageError, setImageError] = useState(false);
-  const imageUrl = artwork.link || '/default-artwork.jpg';
+  const [imageUrl, setImageUrl] = useState<string>('/default-artwork.jpg');
+
+  useEffect(() => {
+    const getImageUrl = () => {
+      console.log('ArtworkDetailsModal - 原始链接:', artwork.link);
+      
+      if (!artwork.link) {
+        console.log('链接为空，使用默认图片');
+        setImageUrl('/default-artwork.jpg');
+        return;
+      }
+
+      // 如果已经是完整的 URL
+      if (artwork.link.startsWith('http')) {
+        console.log('完整 URL:', artwork.link);
+        setImageUrl(artwork.link);
+        return;
+      }
+
+      // 处理路径：确保不以 / 开头
+      let cleanPath = artwork.link;
+      if (cleanPath.startsWith('/')) {
+        cleanPath = cleanPath.slice(1);
+      }
+      
+      console.log('清理后的路径:', cleanPath);
+      
+      // 尝试获取图片 URL
+      try {
+        // 尝试不同的 bucket 名称
+        const bucketName = 'artworks'; // 根据你的存储桶名称修改
+        const { data } = supabase.storage
+          .from(bucketName)
+          .getPublicUrl(cleanPath);
+        
+        console.log(`使用 bucket "${bucketName}" 生成的 URL:`, data.publicUrl);
+        setImageUrl(data.publicUrl);
+      } catch (error) {
+        console.error('Error getting image URL:', error);
+        // 如果 supabase client 失败，直接构造 URL
+        const supabaseUrl = 'https://fxehqztapwouuyvpafce.supabase.co';
+        const publicUrl = `${supabaseUrl}/storage/v1/object/public/artworks/${cleanPath}`;
+        console.log('直接构造的 URL:', publicUrl);
+        setImageUrl(publicUrl);
+      }
+    };
+
+    if (isOpened) {
+      getImageUrl();
+    }
+  }, [artwork.link, isOpened]);
 
   const formatDate = (dateString: string) => {
+    if (!dateString) return '日期未知';
     const date = new Date(dateString);
     return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
+  };
+
+  const getFirstChar = (str: string | null | undefined) => {
+    if (!str) return '?';
+    return str.charAt(0);
   };
 
   return (
@@ -35,25 +91,30 @@ export const ArtworkDetailsModal = ({
         {(onClose) => (
           <div>
             <ModalHeader className='text-2xl flex-col'>
-              <div>{artwork.title}</div>
+              <div>{artwork.title || '无标题'}</div>
               <div className='text-base font-normal text-gray-500'>
-                {artwork.name}
+                {artwork.name || '未知作者'}
               </div>
             </ModalHeader>
             <ModalBody>
               <div className="relative h-96 w-full rounded-lg overflow-hidden bg-gray-100 mb-4">
                 {!imageError ? (
-                  <Image
+                  <img
                     src={imageUrl}
-                    alt={artwork.title}
-                    fill
-                    className="object-contain"
-                    onError={() => setImageError(true)}
+                    alt={artwork.title || '艺术作品'}
+                    className="w-full h-full object-contain"
+                    onError={(e) => {
+                      console.error('图片加载失败:', imageUrl);
+                      setImageError(true);
+                    }}
+                    onLoad={() => {
+                      console.log('图片加载成功:', imageUrl);
+                    }}
                   />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="text-6xl text-gray-400">
-                      {artwork.title.charAt(0)}
+                      {getFirstChar(artwork.title)}
                     </div>
                   </div>
                 )}
@@ -71,12 +132,22 @@ export const ArtworkDetailsModal = ({
                 
                 <div>
                   <h3 className="text-sm font-medium text-gray-500">创作者</h3>
-                  <p className="text-gray-900 mt-1">{artwork.name}</p>
+                  <p className="text-gray-900 mt-1">{artwork.name || '未知作者'}</p>
                 </div>
                 
                 <div>
                   <h3 className="text-sm font-medium text-gray-500">创建日期</h3>
                   <p className="text-gray-900 mt-1">{formatDate(artwork.created_at)}</p>
+                </div>
+
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500">图片路径</h3>
+                  <p className="text-xs text-gray-500 mt-1 break-all">{artwork.link || '无'}</p>
+                </div>
+                
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500">完整 URL</h3>
+                  <p className="text-xs text-gray-500 mt-1 break-all">{imageUrl}</p>
                 </div>
               </div>
             </ModalBody>

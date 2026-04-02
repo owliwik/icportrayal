@@ -358,7 +358,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
 
       {/* 统计信息卡片 */}
       {!loading && !error && resources.length > 0 && (
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mb-8'>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mb-8'>
           <div className={`p-6 rounded-xl border ${category.color.border} shadow-sm text-center ${category.color.bg}`}>
             <div className='flex items-center justify-center gap-3 mb-4'>
               <FileIcon className={`w-6 h-6 ${category.color.text}`} />
@@ -377,16 +377,6 @@ const Page = ({ params }: { params: { slug: string } }) => {
               </div>
             </div>
             <div className='text-sm font-medium text-gray-700'>细分科目</div>
-          </div>
-          
-          <div className={`p-6 rounded-xl border ${category.color.border} shadow-sm text-center ${category.color.bg}`}>
-            <div className='flex items-center justify-center gap-3 mb-4'>
-              <DownloadIcon className={`w-6 h-6 ${category.color.text}`} />
-              <div className='text-3xl font-bold text-gray-900'>
-                {resources.reduce((sum, r) => sum + (r.download_count || 0), 0)}
-              </div>
-            </div>
-            <div className='text-sm font-medium text-gray-700'>总下载次数</div>
           </div>
         </div>
       )}

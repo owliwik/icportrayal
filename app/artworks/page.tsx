@@ -44,12 +44,9 @@ const Page = () => {
       }
 
       const data = await response.json();
-      console.log("[Client] 成功获取数据:", data);
 
       if (data && Array.isArray(data)) {
         if (data.length === 0) {
-          console.log("[Client] 数据库无数据，使用模拟数据");
-          setDebugInfo("数据库暂无数据，显示示例数据");
           setUseMockData(true);
           setArtworks(mockArtworks);
         } else {
@@ -64,8 +61,6 @@ const Page = () => {
         setArtworks(mockArtworks);
       }
     } catch (error) {
-      console.error("[Client] 获取作品失败，使用模拟数据:", error);
-
       if (error instanceof DOMException && error.name === "AbortError") {
         setDebugInfo("请求超时，显示示例数据");
       } else {
@@ -128,13 +123,6 @@ const Page = () => {
                 </span>
               </div>
             </div>
-            <div>
-              <Link href="/submit-artwork">
-                <Button color="primary" size="lg" className="px-8 shadow-md">
-                  提交作品
-                </Button>
-              </Link>
-            </div>
           </div>
         </div>
 
@@ -191,11 +179,6 @@ const Page = () => {
                 尝试连接数据库
               </Button>
             )}
-            <Link href="/submit-artwork">
-              <Button color="primary" size="lg" className="px-8 shadow-md">
-                提交作品
-              </Button>
-            </Link>
           </div>
         </div>
       </div>

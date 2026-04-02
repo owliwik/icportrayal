@@ -1,18 +1,48 @@
 "use client";
 
-import { KeyboardEvent, useState } from "react";
-import Image from "next/image";
+import { KeyboardEvent, useState, useEffect } from "react";
 import { Button } from "@nextui-org/button";
 import { cn } from "@nextui-org/theme";
 import { Artwork } from "@/lib/types/artwork";
 import { ArtworkDetailsModal } from "./ArtworkDetailsModal";
+import { supabase } from "@/lib/supabase/client";
 
 export const ArtworkCard = (artwork: Artwork) => {
   const [modalOpened, setModalOpened] = useState(false);
   const [imageError, setImageError] = useState(false);
-  
-  // 使用 link 字段作为图片 URL，如果没有则使用默认图片
-  const imageUrl = artwork.link || '/default-artwork.jpg';
+  const [imageUrl, setImageUrl] = useState<string>('/default-artwork.jpg');
+
+  useEffect(() => {
+    const getImageUrl = () => {
+      if (!artwork.link) {
+        setImageUrl('/default-artwork.jpg');
+        return;
+      }
+
+      if (artwork.link.startsWith('http')) {
+        setImageUrl(artwork.link);
+        return;
+      }
+
+      // 清理路径
+      let cleanPath = artwork.link;
+      if (cleanPath.startsWith('/')) {
+        cleanPath = cleanPath.slice(1);
+      }
+
+      try {
+        const { data } = supabase.storage
+          .from('artworks')
+          .getPublicUrl(cleanPath);
+        setImageUrl(data.publicUrl);
+      } catch (error) {
+        const supabaseUrl = 'https://fxehqztapwouuyvpafce.supabase.co';
+        setImageUrl(`${supabaseUrl}/storage/v1/object/public/artworks/${cleanPath}`);
+      }
+    };
+
+    getImageUrl();
+  }, [artwork.link]);
 
   const openModal = () => setModalOpened(true);
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
@@ -28,7 +58,6 @@ export const ArtworkCard = (artwork: Artwork) => {
     return `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
   };
 
-  // 安全获取首字母
   const getFirstChar = (str: string | null | undefined) => {
     if (!str) return '?';
     return str.charAt(0);
@@ -50,13 +79,11 @@ export const ArtworkCard = (artwork: Artwork) => {
       >
         <div className="relative h-64 overflow-hidden bg-slate-100">
           {!imageError ? (
-            <Image
+            <img
               alt={artwork.title || '艺术作品'}
-              fill
-              className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
-              onError={() => setImageError(true)}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
               src={imageUrl}
+              className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
+              onError={() => setImageError(true)}
             />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-stone-200 to-stone-100">

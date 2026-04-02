@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image'
 import { departmentItems } from '@/lib/mock-data'
 
@@ -33,20 +35,20 @@ const Page = () => {
         </div>
       </section>
 
-      {/* 学生会简介 Section */}
+      {/* 关于我们 Section */}
       <section className='max-w-6xl mx-auto px-6 pb-16'>
         <div className='flex items-center justify-between mb-6'>
-          <h2 className='text-2xl font-semibold text-slate-900'>学生会简介</h2>
+          <h2 className='text-2xl font-semibold text-slate-900'>关于我们</h2>
           <span className='text-sm text-slate-400'>
-            About Student Union
+            About Us
           </span>
         </div>
         
         <div className='rounded-2xl bg-white border border-slate-100 p-8 shadow-sm'>
           <div className='prose prose-slate max-w-none'>
             <p className='text-lg text-slate-700 leading-relaxed mb-4'>
-              <span className='block mb-2'>第十三届学生会坚持&quot;以人为本，让校园变得更好&quot;的核心理念。我们连接想法与行动的平台，致力于打造一个更开放、更有温度、更值得参与的校园公共空间。我们相信，真正让校园变得更好的，是每一个在这里发声、参与并成长的人。我们希望让每一位同学的声音被听见，让更多想法在校园中成为现实。</span>
-              <span className='block text-base text-slate-500 mt-1'>The 13th IC Student Council is guided by the principle of &quot;People First — Making Our Campus Better.&quot; We are not only organizers of events, but also a platform that connects ideas with action. We believe that what truly improves a campus is the participation, voices, and growth of every individual within it. Our goal is to ensure that every student has the chance to be heard and that more ideas can become reality on campus.</span>
+              <span className='block mb-2'>北京四中国际校区学生会（BHSFIC Student Council）是校级学生自治组织，致力于服务全体学生，并搭建学生与学校之间沟通的桥梁。学生会通过倾听同学需求、收集学生建议、代表学生发声，为同学们的校园生活提供支持与便利，同时通过组织有意义、具有影响力的校园活动，让校园生活更加丰富与多元。</span>
+              <span className='block text-base text-slate-500 mt-1'>The IC Student Council is the official student-led organization of the Beijing No.4 High School International Campus. We aim to serve the student body and act as a bridge between students and the school. By listening to student voices, gathering feedback, and representing student interests, the council works to improve campus life while organizing meaningful events that enrich the school community.</span>
             </p>
           </div>
         </div>
@@ -97,6 +99,25 @@ const Page = () => {
         </div>
       </section>
 
+      {/* 学生会简介 Section */}
+      <section className='max-w-6xl mx-auto px-6 pb-16'>
+        <div className='flex items-center justify-between mb-6'>
+          <h2 className='text-2xl font-semibold text-slate-900'>第十三届学生会</h2>
+          <span className='text-sm text-slate-400'>
+            The 13th IC Student Council
+          </span>
+        </div>
+        
+        <div className='rounded-2xl bg-white border border-slate-100 p-8 shadow-sm'>
+          <div className='prose prose-slate max-w-none'>
+            <p className='text-lg text-slate-700 leading-relaxed mb-4'>
+              <span className='block mb-2'>第十三届学生会坚持&quot;以人为本，让校园变得更好&quot;的核心理念。我们连接想法与行动的平台，致力于打造一个更开放、更有温度、更值得参与的校园公共空间。我们相信，真正让校园变得更好的，是每一个在这里发声、参与并成长的人。我们希望让每一位同学的声音被听见，让更多想法在校园中成为现实。</span>
+              <span className='block text-base text-slate-500 mt-1'>The 13th IC Student Council is guided by the principle of &quot;People First — Making Our Campus Better.&quot; We are not only organizers of events, but also a platform that connects ideas with action. We believe that what truly improves a campus is the participation, voices, and growth of every individual within it. Our goal is to ensure that every student has the chance to be heard and that more ideas can become reality on campus.</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* 组织架构 Section */}
       <section className='max-w-6xl mx-auto px-6 pb-16'>
         <div className='flex items-center justify-between mb-6'>
@@ -125,16 +146,30 @@ const Page = () => {
                 </p>
               </div>
             </div>
-            
             {/* 右侧图片空间 */}
             <div className='flex flex-col space-y-4'>
-              <div className='aspect-video bg-gradient-to-br from-slate-100 to-slate-200 rounded-xl flex items-center justify-center border-2 border-dashed border-slate-300'>
-                <div className='text-center'>
-                  <div className='text-6xl mb-3 text-slate-400'>🏛️</div>
-                  <p className='text-slate-500 font-medium'>组织架构图</p>
-                  <p className='text-sm text-slate-400 mt-1'>Organizational Chart</p>
-                </div>
+              <div className='aspect-video bg-gradient-to-br from-slate-100 to-slate-200 rounded-xl overflow-hidden flex items-center justify-center'>
+                <img 
+                  src="/structure.jpg"
+                  alt="组织架构图"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    const parent = target.parentElement;
+                    if (parent) {
+                      parent.innerHTML = `
+                        <div class="text-center">
+                          <div class="text-6xl mb-3 text-slate-400">🏛️</div>
+                          <p class="text-slate-500 font-medium">组织架构图</p>
+                          <p class="text-sm text-slate-400 mt-1">Organizational Chart</p>
+                        </div>
+                      `;
+                    }
+                  }}
+                />
               </div>
+              <p className='text-xs text-slate-400 text-center'>组织架构图 | Organizational Chart</p>
             </div>
           </div>
         </div>
@@ -278,22 +313,6 @@ const Page = () => {
                 <span className='block text-xs text-slate-500 mt-1'>Make suggestions through suggestion boxes, official accounts, and other channels, participate in campus development, and work together to create a better learning and living environment.</span>
               </p>
             </div>
-          </div>
-          
-          {/* 行动按钮 */}
-          <div className='mt-8 flex flex-wrap gap-4 justify-center'>
-            <a
-              href='/join'
-              className='px-6 py-3 bg-primary-500 text-white rounded-full font-medium hover:bg-primary-600 transition-colors'
-            >
-              立即报名加入 | Join Now
-            </a>
-            <a
-              href='/activities'
-              className='px-6 py-3 border border-slate-200 text-slate-600 rounded-full font-medium hover:border-primary-200 hover:text-primary-600 transition-colors'
-            >
-              浏览近期活动 | Browse Activities
-            </a>
           </div>
         </div>
       </section>

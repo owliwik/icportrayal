@@ -203,22 +203,7 @@ export const teamMembers: TeamMember[] = [
     name: '钱曦文',
     role: '2028级学信部部员,后端开发者',
     image: '/led3.jpg',
-  },
-  {
-    name: 'Codex',
-    role: '最强内置AI',
-    image: '/codex.jpg',
-  },
-  {
-    name: 'deepseek',
-    role: '最强外置AI',
-    image: '/deepseek.jpg',
-  },
-  {
-    name: 'Cursor',
-    role: '最强IDE',
-    image: '/cursor.jpg',
-  },
+  }
 ]
 
 export const alumniProfiles: AlumniProfile[] = [
@@ -270,7 +255,7 @@ export const departmentItems = [
       'Assist in promoting campus life-related projects and activities',
       'Maintain and optimize campus life service facilities'
     ],
-    imageUrl: '/images/departments/生活部.jpg',
+    imageUrl: '/life.jpg',
     color: 'bg-green-100'
   },
   {
@@ -295,7 +280,7 @@ export const departmentItems = [
       'Maintain and update information platforms such as IC Portrayal',
       'Provide technical support for student union internal management and external operations'
     ],
-    imageUrl: '/images/departments/学信部.jpg',
+    imageUrl: '/study.jpg',
     color: 'bg-blue-100'
   },
   {
@@ -318,7 +303,7 @@ export const departmentItems = [
       'Plan and implement themed activities and campus culture projects',
       'Promote the development of campus cultural atmosphere'
     ],
-    imageUrl: '/images/departments/文艺部.jpg',
+    imageUrl: '/art.jpg',
     color: 'bg-pink-100'
   },
   {
@@ -343,7 +328,7 @@ export const departmentItems = [
       'Promote regular sports activities',
       'Facilitate inter-school sports exchanges'
     ],
-    imageUrl: '/images/departments/体育部.jpg',
+    imageUrl: '/sport.jpg',
     color: 'bg-orange-100'
   },
   {
@@ -366,7 +351,7 @@ export const departmentItems = [
       'Organize campus art projects and creative activities',
       'Promote campus visual culture and public art development'
     ],
-    imageUrl: '/images/departments/设计部.jpg',
+    imageUrl: '/design.jpg',
     color: 'bg-yellow-100'
   },
   {
@@ -391,7 +376,7 @@ export const departmentItems = [
       'Responsible for the production and promotion of student union cultural products',
       'Promote the external dissemination and display of IC campus culture'
     ],
-    imageUrl: '/images/departments/外联部.jpg',
+    imageUrl: '/external-relation.jpg',
     color: 'bg-purple-100'
   }
 ];
