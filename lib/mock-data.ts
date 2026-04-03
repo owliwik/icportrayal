@@ -197,13 +197,28 @@ export const teamMembers: TeamMember[] = [
   {
     name: '王明远',
     role: '2027级学信部部员,网站开发者',
-    image: '/led2.jpg',
+    image: '/default.jpg',
   },
   {
     name: '钱曦文',
     role: '2028级学信部部员,后端开发者',
-    image: '/led3.jpg',
-  }
+    image: '/hacker.jpg',
+  },
+  {
+    name: 'Codex',
+    role: '最强内置AI',
+    image: '/codex.jpg',
+  },
+  {
+    name: 'deepseek',
+    role: '最强外置AI',
+    image: '/deepseek.jpg',
+  },
+  {
+    name: 'Cursor',
+    role: '最强IDE',
+    image: '/cursor.jpg',
+  },
 ]
 
 export const alumniProfiles: AlumniProfile[] = [
