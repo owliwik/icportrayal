@@ -20,16 +20,21 @@ export const ActivityCard = (activity: Activity) => {
     
     setDownloading(true)
     try {
-      // 实际下载逻辑
-      const response = await fetch(activity.link)
-      const blob = await response.blob()
-      const url = window.URL.createObjectURL(blob)
+      let downloadUrl = activity.link
+
+      // 如果是 Supabase Storage 的对象路径（不带 http / 不以 / 开头），拼成可访问的 public URL
+      if (!downloadUrl.startsWith('http') && !downloadUrl.startsWith('/')) {
+        const cleanPath = downloadUrl.replace(/^\/+/, '')
+        downloadUrl = `https://fxehqztapwouuyvpafce.supabase.co/storage/v1/object/public/${cleanPath}`
+      }
+
       const a = document.createElement('a')
-      a.href = url
+      a.href = downloadUrl
       a.download = `${activity.name}-photos.zip`
+      a.target = '_blank'
+      a.rel = 'noopener noreferrer'
       document.body.appendChild(a)
       a.click()
-      window.URL.revokeObjectURL(url)
       document.body.removeChild(a)
     } catch (error) {
       console.error('Download failed:', error)
@@ -95,6 +100,7 @@ export const ActivityCard = (activity: Activity) => {
             size='sm'
             className='absolute top-[50%] translate-y-[-50%] right-3 rounded-full flex justify-center items-center bg-blue-50 text-blue-500 hover:bg-blue-100 transition-colors'
             isIconOnly
+            aria-label='下载活动照片压缩包'
           >
             <FaDownload className="text-sm" />
           </Button>

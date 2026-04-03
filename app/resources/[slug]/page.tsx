@@ -279,30 +279,9 @@ const Page = ({ params }: { params: { slug: string } }) => {
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
-      
-      await updateDownloadCount(resource.id)
-      
     } catch (err: any) {
       console.error('下载失败:', err)
       alert(`下载失败: ${err.message}`)
-    }
-  }
-
-  const updateDownloadCount = async (resourceId: number) => {
-    try {
-      const { data: currentData } = await supabase
-        .from('studyguide')
-        .select('download_count')
-        .eq('id', resourceId)
-        .single()
-
-      const currentCount = currentData?.download_count || 0
-      await supabase
-        .from('studyguide')
-        .update({ download_count: currentCount + 1 })
-        .eq('id', resourceId)
-    } catch (err) {
-      console.error('更新下载计数失败:', err)
     }
   }
 
@@ -494,12 +473,6 @@ const Page = ({ params }: { params: { slug: string } }) => {
                               <CalendarIcon className="w-4 h-4" />
                               <span>{formatDate(resource.created_at)}</span>
                             </div>
-                            {resource.download_count > 0 && (
-                              <div className='flex items-center gap-1 text-amber-600'>
-                                <DownloadIcon className="w-4 h-4" />
-                                <span>{resource.download_count}次下载</span>
-                              </div>
-                            )}
                           </div>
                         </div>
                       </div>

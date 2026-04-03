@@ -25,52 +25,36 @@ export const ArtworkDetailsModal = ({
   const [imageUrl, setImageUrl] = useState<string>('/default-artwork.jpg');
 
   useEffect(() => {
-    const getImageUrl = () => {
-      console.log('ArtworkDetailsModal - 原始链接:', artwork.link);
-      
-      if (!artwork.link) {
-        console.log('链接为空，使用默认图片');
-        setImageUrl('/default-artwork.jpg');
-        return;
-      }
+    if (!isOpened) return;
 
-      // 如果已经是完整的 URL
-      if (artwork.link.startsWith('http')) {
-        console.log('完整 URL:', artwork.link);
-        setImageUrl(artwork.link);
-        return;
-      }
+    setImageError(false);
 
-      // 处理路径：确保不以 / 开头
-      let cleanPath = artwork.link;
-      if (cleanPath.startsWith('/')) {
-        cleanPath = cleanPath.slice(1);
-      }
-      
-      console.log('清理后的路径:', cleanPath);
-      
-      // 尝试获取图片 URL
-      try {
-        // 尝试不同的 bucket 名称
-        const bucketName = 'artworks'; // 根据你的存储桶名称修改
-        const { data } = supabase.storage
-          .from(bucketName)
-          .getPublicUrl(cleanPath);
-        
-        console.log(`使用 bucket "${bucketName}" 生成的 URL:`, data.publicUrl);
-        setImageUrl(data.publicUrl);
-      } catch (error) {
-        console.error('Error getting image URL:', error);
-        // 如果 supabase client 失败，直接构造 URL
-        const supabaseUrl = 'https://fxehqztapwouuyvpafce.supabase.co';
-        const publicUrl = `${supabaseUrl}/storage/v1/object/public/artworks/${cleanPath}`;
-        console.log('直接构造的 URL:', publicUrl);
-        setImageUrl(publicUrl);
-      }
-    };
+    if (!artwork.link) {
+      setImageUrl('/default-artwork.jpg');
+      return;
+    }
 
-    if (isOpened) {
-      getImageUrl();
+    if (artwork.link.startsWith('http')) {
+      setImageUrl(artwork.link);
+      return;
+    }
+
+    // 优先当作站点 public 资源路径（例如 /artworks/1.jpg）
+    if (artwork.link.startsWith('/')) {
+      setImageUrl(artwork.link);
+      return;
+    }
+
+    // 兜底：当作 Supabase Storage（bucket: artworks）对象路径
+    const cleanPath = artwork.link.replace(/^\/+/, '');
+    try {
+      const { data } = supabase.storage
+        .from('artworks')
+        .getPublicUrl(cleanPath);
+      setImageUrl(data.publicUrl);
+    } catch {
+      const supabaseUrl = 'https://fxehqztapwouuyvpafce.supabase.co';
+      setImageUrl(`${supabaseUrl}/storage/v1/object/public/artworks/${cleanPath}`);
     }
   }, [artwork.link, isOpened]);
 

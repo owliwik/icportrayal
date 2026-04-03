@@ -5,7 +5,6 @@ import { useMemo, useState, useEffect, useCallback } from 'react'
 import { Button } from '@nextui-org/button'
 import { Activity, ActivityCategory } from '@/lib/types/activity'
 import { ActivityGrid } from './ActivityGrid'
-import Link from 'next/link'
 import { Spinner } from '@nextui-org/spinner'
 import { FaFilter } from 'react-icons/fa'
 
@@ -129,13 +128,7 @@ const Page = () => {
                 </span>
               </div>
             </div>
-            <div>
-              <Link href='/report'>
-                <Button color='primary' size='lg' className='px-8 shadow-md'>
-                  活动打卡
-                </Button>
-              </Link>
-            </div>
+            <div />
           </div>
         </div>
         
@@ -208,13 +201,7 @@ const Page = () => {
               <div className="mt-2 text-xs text-slate-300">{debugInfo}</div>
             )}
           </div>
-          <div>
-            <Link href='/report'>
-              <Button color='primary' size='lg' className='px-8 shadow-md'>
-                活动打卡
-              </Button>
-            </Link>
-          </div>
+          <div />
         </div>
       </div>
 
